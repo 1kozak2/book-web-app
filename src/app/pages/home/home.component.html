@@ -1,0 +1,15 @@
+<div class="hero-section">
+  <h1>Odkrywaj najlepsze książki 📚</h1>
+  <p>Zanurz się w świecie literatury — gdzie chcesz, kiedy chcesz.</p>
+</div>
+
+<div class="book-section">
+  <h2>Popularne teraz</h2>
+  <div class="book-grid">
+    <div class="book-card" *ngFor="let book of books">
+      <img [src]="book.cover" alt="Okładka" />
+      <h4>{{ book.title }}</h4>
+      <p>{{ book.author }}</p>
+    </div>
+  </div>
+</div>

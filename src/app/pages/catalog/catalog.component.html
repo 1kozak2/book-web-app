@@ -1,0 +1,11 @@
+<div class="catalog-page">
+    <h2>Katalog książek</h2>
+    <div class="book-grid">
+      <div class="book-card" *ngFor="let book of books">
+        <img [src]="book.cover" alt="Okładka" />
+        <h4>{{ book.title }}</h4>
+        <p>{{ book.author }}</p>
+      </div>
+    </div>
+  </div>
+  

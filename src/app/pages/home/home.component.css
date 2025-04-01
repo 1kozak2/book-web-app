@@ -1,0 +1,27 @@
+.hero-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(90deg, #1db954, #1ed760);
+  color: black;
+  text-align: center;
+}
+.book-section {
+  padding: 2rem;
+}
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.5rem;
+}
+.book-card {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+}
+.book-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+}
