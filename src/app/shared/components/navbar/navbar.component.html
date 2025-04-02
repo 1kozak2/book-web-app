@@ -1,14 +1,18 @@
 <nav class="navbar">
   <div class="navbar-container">
     <div class="navbar-left">
-      <span class="logo">🎵 Biblioteka</span>
+      <span class="logo"><i class="fas fa-book-open"></i> Biblioteka</span>
     </div>
     <div class="navbar-center">
       <ul class="nav-links">
-        <li><a routerLink="/">Strona Główna</a></li>
-        <li><a routerLink="/katalog">Katalog</a></li>
-        <li><a routerLink="/logowanie">Logowanie</a></li>
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Strona Główna</a></li>
+        <li><a routerLink="/katalog" routerLinkActive="active">Katalog</a></li>
+        <li><a routerLink="/logowanie" routerLinkActive="active">Logowanie</a></li>
+        <li><a routerLink="/rejestracja" routerLinkActive="active">Rejestracja</a></li>
       </ul>
+    </div>
+    <div class="navbar-right">
+      <button class="login-btn">Zaloguj się</button>
     </div>
   </div>
 </nav>

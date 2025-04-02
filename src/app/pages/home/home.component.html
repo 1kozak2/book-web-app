@@ -1,10 +1,23 @@
-<div class="hero-section">
-  <h1>Odkrywaj najlepsze książki 📚</h1>
-  <p>Zanurz się w świecie literatury — gdzie chcesz, kiedy chcesz.</p>
+<div class="hero">
+  <div class="hero-content">
+    <h1>📚 Twoja cyfrowa biblioteka</h1>
+    <p>Przeglądaj, odkrywaj i czytaj tysiące książek – gdzie chcesz, kiedy chcesz.</p>
+    <button class="cta-btn">Zobacz katalog</button>
+  </div>
 </div>
 
-<div class="book-section">
-  <h2>Popularne teraz</h2>
+<section class="category-section">
+  <h2>Kategorie</h2>
+  <div class="categories">
+    <div class="category-card">🌍 Literatura</div>
+    <div class="category-card">🔬 Nauka</div>
+    <div class="category-card">🚀 Fantastyka</div>
+    <div class="category-card">🧠 Psychologia</div>
+  </div>
+</section>
+
+<section class="book-section">
+  <h2>Popularne książki</h2>
   <div class="book-grid">
     <div class="book-card" *ngFor="let book of books">
       <img [src]="book.cover" alt="Okładka" />
@@ -12,4 +25,4 @@
       <p>{{ book.author }}</p>
     </div>
   </div>
-</div>
+</section>

@@ -1,0 +1,12 @@
+.hint {
+    margin-top: 1rem;
+    color: #bbb;
+  }
+  .hint a {
+    color: #1db954;
+    text-decoration: none;
+  }
+  .hint a:hover {
+    text-decoration: underline;
+  }
+  
