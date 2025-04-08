@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -11,11 +11,21 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  registerData = { login: '', email: '', password: '' };
+  fullName: string = '';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
 
-  onRegister() {
-    console.log('Rejestracja:', this.registerData);
-    alert('Zarejestrowano (demo)');
-    
+  constructor(private router: Router) {}
+
+  onRegister(): void {
+    if (this.password !== this.confirmPassword) {
+      alert('Hasła nie są takie same.');
+      return;
+    }
+
+    // Replace with actual registration logic
+    console.log('Registering:', this.fullName, this.email);
+    this.router.navigate(['/login']); // Redirect to login after successful registration
   }
 }

@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  userBooks    UserBook[]
+}
+
+model Book {
+  id             Int          @id @default(autoincrement())
+  googleBooksId  String?      @unique
+  title          String
+  subtitle       String?
+  description    String?
+  publishedDate  DateTime?
+  pageCount      Int?
+  language       String?
+  thumbnailUrl   String?
+  previewLink    String?
+  infoLink       String?
+  averageRating  Float?
+  ratingsCount   Int?
+  isbn10         String?
+  isbn13         String?
+  authors        BookAuthor[]
+  categories     BookCategory[]
+  userBooks      UserBook[]
+}
+
+model Author {
+  id    Int          @id @default(autoincrement())
+  name  String       @unique
+  books BookAuthor[]
+}
+
+model BookAuthor {
+  book     Book @relation(fields: [bookId], references: [id])
+  bookId   Int
+  author   Author @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  @@id([bookId, authorId])
+}
+
+model Category {
+  id    Int           @id @default(autoincrement())
+  name  String        @unique
+  books BookCategory[]
+}
+
+model BookCategory {
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@id([bookId, categoryId])
+}
+
+model UserBook {
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int
+  book     Book   @relation(fields: [bookId], references: [id])
+  bookId   Int
+  status   String
+  addedAt  DateTime @default(now())
+
+  @@id([userId, bookId])
+}
