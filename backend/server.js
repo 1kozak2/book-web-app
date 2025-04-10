@@ -1,11 +1,15 @@
-const express = require('express');
+
 const axios = require('axios');
-const cors = require('cors');  // <-- add CORS middleware if needed
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const authRoutes = require('./routes/auth');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.use(cors()); // Allow cross-origin requests
-
+app.use(express.json());
+app.use('/api/auth', authRoutes);
 const GOOGLE_BOOKS_API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 
 // Search endpoint
