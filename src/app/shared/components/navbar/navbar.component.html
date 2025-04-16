@@ -1,18 +1,24 @@
 <nav class="navbar">
   <div class="navbar-container">
     <div class="navbar-left">
-      <span class="logo"><i class="fas fa-book-open"></i> Biblioteka</span>
+      <a routerLink="/" class="logo"><i class="fas fa-book-open"></i> 
+        <img src="LOGO.png" alt=""> Biblioteka</a>
     </div>
     <div class="navbar-center">
       <ul class="nav-links">
-        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Strona Główna</a></li>
-        <li><a routerLink="/katalog" routerLinkActive="active">Katalog</a></li>
-        <li><a routerLink="/logowanie" routerLinkActive="active">Logowanie</a></li>
-        <li><a routerLink="/rejestracja" routerLinkActive="active">Rejestracja</a></li>
+        <li><a routerLink="/bestsellers" routerLinkActive="active">Bestsellers</a></li>
+        <li><a routerLink="/catalogue" routerLinkActive="active">Catalogue</a></li>
+        <li><a routerLink="/about-us" routerLinkActive="active">About us</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+
+
       </ul>
     </div>
     <div class="navbar-right">
-      <button class="login-btn">Zaloguj się</button>
+      <button routerLink="/login" class="login-btn">Zaloguj się</button>
+      <button routerLink="/register" class="login-btn">Rejestracja</button>
+      <img src="https://api.dicebear.com/6.x/initials/svg" alt="Avatar">
+   
     </div>
   </div>
 </nav>

@@ -1,0 +1,77 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* accounting for nav/header */
+    background-color: #111;
+  }
+  
+  .profile-card {
+    background-color: #fff;
+    color: #222;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(0, 255, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .profile-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  }
+  
+  .avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #00ff7f;
+    margin-bottom: 1.2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #111;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0.5rem 0 1.5rem;
+  }
+  
+  button {
+    background: #00ff7f;
+    color: #000;
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  button:hover {
+    background: #00e66c;
+  }
+  
+  @media (max-width: 500px) {
+    .profile-card {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+  
+    h2 {
+      font-size: 1.3rem;
+    }
+  
+    p {
+      font-size: 0.85rem;
+    }
+  }
+  

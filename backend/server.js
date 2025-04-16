@@ -3,71 +3,16 @@ const axios = require('axios');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
 const app = express();
+const authRoutes = require('./routes/auth');
+const booksRoutes = require('./routes/books');
 const PORT = process.env.PORT;
 
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+app.use('/api/books', booksRoutes);
 const GOOGLE_BOOKS_API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
-
-// Search endpoint
-app.get('/search', async (req, res) => {
-  try {
-    const { q } = req.query;
-    if (!q) {
-      return res.status(400).json({ error: 'Search query (q) is required' });
-    }
-    const response = await axios.get(GOOGLE_BOOKS_API_BASE_URL, {
-      params: {
-        q,
-        maxResults: 10,
-        key: process.env.GOOGLE_BOOKS_API_KEY
-      }
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error fetching data:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Initial Books endpoint
-app.get('/api/initBooks', async (req, res) => {
-  try {
-    const defaultQuery = 'fiction';
-    const response = await axios.get(GOOGLE_BOOKS_API_BASE_URL, {
-      params: {
-        q: defaultQuery,
-        maxResults: 20,
-        key: process.env.GOOGLE_BOOKS_API_KEY
-      }
-    });
-
-    const books = response.data.items || [];
-
-    // Normalize and clean up the book data
-    const booksWithImages = books
-      .filter(book =>
-        book.volumeInfo &&
-        book.volumeInfo.title &&
-        book.volumeInfo.imageLinks &&
-        book.volumeInfo.imageLinks.thumbnail
-      )
-      .map(book => ({
-        id: book.id,
-        title: book.volumeInfo.title,
-        authors: book.volumeInfo.authors || [],
-        thumbnail: book.volumeInfo.imageLinks.thumbnail
-      }));
-
-    res.json(booksWithImages);
-  } catch (error) {
-    console.error('Error fetching books:', error.message);
-    res.status(500).json({ error: 'Failed to fetch books' });
-  }
-});
 
 
 // Start the server after all routes are defined

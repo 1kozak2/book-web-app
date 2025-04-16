@@ -1,0 +1,10 @@
+<div class="profile-card" *ngIf="user">
+    <div class="avatar">
+      <img src="https://api.dicebear.com/6.x/initials/svg?seed={{ user.username }}" alt="Avatar">
+    </div>
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
+  
+    <button (click)="logout()">Wyloguj się</button>
+  </div>
+  

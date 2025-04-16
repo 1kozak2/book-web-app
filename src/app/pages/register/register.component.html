@@ -24,7 +24,9 @@
 
       <button type="submit" class="login-button" [disabled]="!registerForm.valid">Zarejestruj się</button>
     </form>
-
+    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    <p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
+    
     <p class="register-prompt">
       Masz już konto?
       <a routerLink="/login">Zaloguj się</a>

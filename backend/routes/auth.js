@@ -7,7 +7,10 @@ const router = express.Router();
 
 // Register
 router.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password } = req.body || {};
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
   try {
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
