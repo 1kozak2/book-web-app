@@ -1,1 +1,5 @@
-<p>book-card works!</p>
+<a [routerLink]="['/book', book.id]" class="book-card">
+    <img [src]="cover" alt="{{ title }}" class="book-cover" />
+    <h3 class="book-title">{{ title }}</h3>
+    <p class="book-author">{{ author }}</p>
+  </a>

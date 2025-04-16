@@ -19,12 +19,12 @@
 
   <!-- Book List -->
   <div class="book-grid">
-    <div *ngFor="let book of sortedBooks()" class="book-card" (click)="openBook(book)">
-      <img [src]="book.cover" alt="Book cover" class="book-cover" />
-      <h3 class="book-title">{{ book.title }}</h3>
-      <p class="book-author">{{ book.author }}</p>
-    </div>
+    <app-book-card
+      *ngFor="let book of sortedBooks()"
+      [book]="book"
+    ></app-book-card>
   </div>
+  
 
   <!-- Load More -->
   <div class="load-more-container">

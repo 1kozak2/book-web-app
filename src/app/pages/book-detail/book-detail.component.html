@@ -1,34 +1,33 @@
 <div *ngIf="book" class="book-detail-container">
-    <div class="book-detail-card">
-      <div class="book-image-section">
-        <img [src]="book.thumbnailUrl" alt="Book cover" class="book-cover" />
+  <div class="book-detail-card">
+    <div class="book-image-section">
+      <img [src]="getThumbnail()" alt="Book cover" class="book-cover" />
+    </div>
+
+    <div class="book-info-section">
+      <h2 class="book-title">{{ book.volumeInfo.title }}</h2>
+      <p *ngIf="book.volumeInfo.subtitle" class="book-subtitle">{{ book.volumeInfo.subtitle }}</p>
+
+      <div class="book-meta">
+        <p><strong>Author(s):</strong> {{ getAuthorNames() }}</p>
+        <p><strong>Categories:</strong> {{ getCategoryNames() }}</p>
+        <p><strong>Published:</strong> {{ book.volumeInfo.publishedDate }}</p>
+        <p><strong>Pages:</strong> {{ book.volumeInfo.pageCount }}</p>
+        <p><strong>Language:</strong> {{ book.volumeInfo.language }}</p>
+        <p *ngIf="book.volumeInfo.averageRating">
+          <strong>Rating:</strong> {{ book.volumeInfo.averageRating }} ({{ book.volumeInfo.ratingsCount }} votes)
+        </p>
       </div>
-  
-      <div class="book-info-section">
-        <h2 class="book-title">{{ book.title }}</h2>
-        <p *ngIf="book.subtitle" class="book-subtitle">{{ book.subtitle }}</p>
-  
-        <div class="book-meta">
-          <p><strong>Author(s):</strong> {{ getAuthorNames() }}</p>
-          <p><strong>Categories:</strong> {{ getCategoryNames() }}</p>
-          <p><strong>Published:</strong> {{ book.publishedDate | date }}</p>
-          <p><strong>Pages:</strong> {{ book.pageCount }}</p>
-          <p><strong>Language:</strong> {{ book.language }}</p>
-          <p *ngIf="book.averageRating">
-            <strong>Rating:</strong> {{ book.averageRating }} ({{ book.ratingsCount }} votes)
-          </p>
-        </div>
-  
-        <div *ngIf="book.description" class="book-description">
-          <h3>Description</h3>
-          <p>{{ book.description }}</p>
-        </div>
-  
-        <div class="book-actions">
-          <a [href]="book.infoLink" target="_blank" class="action-button">View in Store</a>
-          <button class="action-button filled" (click)="addToLibrary()">Add to My Library</button>
-        </div>
+
+      <div *ngIf="book.volumeInfo.description" class="book-description">
+        <h3>Description</h3>
+        <p>{{ book.volumeInfo.description }}</p>
+      </div>
+
+      <div class="book-actions">
+        <a [href]="getInfoLink()" target="_blank" class="action-button">View in Store</a>
+        <button class="action-button filled" (click)="addToLibrary()">Add to My Library</button>
       </div>
     </div>
   </div>
-  
+</div>

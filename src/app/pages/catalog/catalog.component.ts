@@ -2,19 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
-interface Book {
-  id: string;
-  title: string;
-  author: string;
-  cover: string;
-  link: string;
-}
+import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
+import { Book } from '../../shared/components/book';
 
 @Component({
   standalone: true,
   selector: 'app-catalog',
-  imports: [CommonModule, HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule, BookCardComponent],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css']
 })
@@ -41,11 +35,10 @@ export class CatalogComponent implements OnInit {
     this.startIndex = 0;
     this.lastQuery = this.searchTerm;
 
-    this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.searchTerm)}&startIndex=0&maxResults=${this.maxResults}`)
+    this.http.get<Book[]>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.searchTerm)}&startIndex=0&maxResults=${this.maxResults}`)
       .subscribe(response => {
-        const results = response.items || [];
-        this.books = this.extractBooks(results);
-        this.startIndex = results.length;
+        this.books = response;
+        this.startIndex = response.length;
         this.loading = false;
       });
   }
@@ -53,33 +46,23 @@ export class CatalogComponent implements OnInit {
   loadMore(): void {
     this.loading = true;
 
-    this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.lastQuery)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
-      .subscribe(response => {
-        const newResults = response.items || [];
-        const newBooks = this.extractBooks(newResults);
-        this.books = [...this.books, ...newBooks];
+    this.http.get<Book[]>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.lastQuery)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
+      .subscribe(newResults => {
+        this.books = [...this.books, ...newResults];
         this.startIndex += this.maxResults;
         this.loading = false;
       });
   }
 
-  extractBooks(results: any[]): Book[] {
-    return results
-      .filter(b => b.volumeInfo?.title && b.volumeInfo?.imageLinks?.thumbnail)
-      .map(b => ({
-        id: b.id,
-        title: b.volumeInfo.title,
-        author: b.volumeInfo.authors?.[0] || 'Unknown Author',
-        cover: b.volumeInfo.imageLinks.thumbnail,
-        link: b.volumeInfo.infoLink || '#'
-      }));
-  }
-
   sortedBooks(): Book[] {
-    return this.books.sort((a, b) => a[this.sortBy].localeCompare(b[this.sortBy]));
-  }
-
-  openBook(book: Book): void {
-    window.open(book.link, '_blank');
+    return this.books.slice().sort((a, b) => {
+      const aValue = this.sortBy === 'author'
+        ? a.volumeInfo.authors?.[0] || ''
+        : a.volumeInfo.title;
+      const bValue = this.sortBy === 'author'
+        ? b.volumeInfo.authors?.[0] || ''
+        : b.volumeInfo.title;
+      return aValue.localeCompare(bValue);
+    });
   }
 }

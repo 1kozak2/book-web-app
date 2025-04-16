@@ -6,23 +6,39 @@ const GOOGLE_BOOKS_API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 const GOOGLE_API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
 
 // backend/routes/books.js
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+// router.get('/:id', async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const book = await prisma.book.findUnique({
+//       where: { id: parseInt(id) },
+//       include: {
+//         authors: { include: { author: true } },
+//         categories: { include: { category: true } }
+//       }
+//     });
+
+//     if (!book) return res.status(404).json({ error: 'Book not found' });
+
+//     res.json(book);
+//   } catch (error) {
+//     console.error('Error fetching book:', error.message);
+//     res.status(500).json({ error: 'Failed to fetch book details' });
+//   }
+// });
+router.get('/google/:googleBooksId', async (req, res) => {
+  const { googleBooksId } = req.params;
+
   try {
-    const book = await prisma.book.findUnique({
-      where: { id: parseInt(id) },
-      include: {
-        authors: { include: { author: true } },
-        categories: { include: { category: true } }
+    const response = await axios.get(`${GOOGLE_BOOKS_API_BASE_URL}/${googleBooksId}`, {
+      params: {
+        key: GOOGLE_API_KEY
       }
     });
 
-    if (!book) return res.status(404).json({ error: 'Book not found' });
-
-    res.json(book);
+    res.json(response.data);
   } catch (error) {
-    console.error('Error fetching book:', error.message);
-    res.status(500).json({ error: 'Failed to fetch book details' });
+    console.error('Error fetching book from Google API:', error.message);
+    res.status(500).json({ error: 'Failed to fetch book' });
   }
 });
 
