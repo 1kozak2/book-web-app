@@ -7,9 +7,11 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { BestsellersComponent } from './pages/bestsellers/bestsellers.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { BookDetailComponent } from './pages/book-detail/book-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'book/:id', component: BookDetailComponent },
   { path: 'catalogue', component: CatalogComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
