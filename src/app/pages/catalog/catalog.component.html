@@ -1,0 +1,35 @@
+<div class="catalog-container">
+  <h1 class="catalog-title">Katalog książek</h1>
+
+  <!-- Search Controls -->
+  <div class="search-controls">
+    <input
+      [(ngModel)]="searchTerm"
+      type="text"
+      placeholder="Szukaj książki..."
+      class="search-input"
+    />
+    <button (click)="searchBooks()" class="search-button">Szukaj</button>
+
+    <select [(ngModel)]="sortBy" class="sort-select">
+      <option value="title">Tytuł</option>
+      <option value="author">Autor</option>
+    </select>
+  </div>
+
+  <!-- Book List -->
+  <div class="book-grid">
+    <app-book-card
+      *ngFor="let book of sortedBooks()"
+      [book]="book"
+    ></app-book-card>
+  </div>
+  
+
+  <!-- Load More -->
+  <div class="load-more-container">
+    <button (click)="loadMore()" [disabled]="loading" class="load-more-button">
+      {{ loading ? 'Ładowanie...' : 'Pokaż więcej' }}
+    </button>
+  </div>
+</div>

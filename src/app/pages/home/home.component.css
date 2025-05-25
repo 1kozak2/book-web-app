@@ -1,0 +1,112 @@
+.hero {
+  background: linear-gradient(135deg, #1db954, #1ed760);
+  padding: 5rem 2rem;
+  text-align: center;
+  color: black;
+  border-bottom: 8px solid #121212;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.cta-btn {
+  background-color: black;
+  color: #1db954;
+  border: 2px solid #1db954;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background-color: #1db954;
+  color: black;
+}
+
+.category-section {
+  padding: 3rem 2rem;
+  background-color: #181818;
+  color: white;
+}
+
+.categories {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.category-card {
+  background-color: #282828;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 1px solid #1db954;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+  background-color: #1db954;
+  color: black;
+}
+
+.book-section {
+  padding: 3rem 2rem;
+  background-color: #121212;
+  color: white;
+}
+
+.book-section h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2rem;
+}
+
+.book-card {
+  background-color: #1e1e1e;
+  border: 1px solid #1db95433;
+  padding: 1rem;
+  border-radius: 15px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(29, 185, 84, 0.2);
+}
+
+.book-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.book-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.book-card p {
+  font-size: 0.9rem;
+  color: #aaa;
+}
