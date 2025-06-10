@@ -4,7 +4,7 @@ const authenticateToken = require('../middleware/authMiddleware');
 const router = express.Router();
 const { serializeUser } = require('../utils/serializer');
 // POST /api/user/books - Add book to logged-in user's library
-router.post('user/books', authenticateToken, async (req, res) => {
+router.post('/user/books', authenticateToken, async (req, res) => {
   const userId = req.user.id;
   const {
     googleBooksId,
@@ -106,10 +106,46 @@ router.post('user/books', authenticateToken, async (req, res) => {
   }
 });
 
-module.exports = router;
-
-
-
+router.get('/user/books', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const userBooks = await prisma.userBook.findMany({
+      where: { userId },
+      include: {
+        book: {
+          include: {
+            authors: { include: { author: true } },
+            categories: { include: { category: true } }
+          }
+        }
+      }
+    });
+    const books = userBooks.map(ub => {
+      const b = ub.book;
+      return {
+        id: b.googleBooksId || String(b.id),
+        volumeInfo: {
+          title: b.title,
+          subtitle: b.subtitle,
+          description: b.description,
+          publishedDate: b.publishedDate?.toISOString(),
+          pageCount: b.pageCount,
+          language: b.language,
+          averageRating: b.averageRating,
+          ratingsCount: b.ratingsCount,
+          authors: b.authors.map(a => a.author.name),
+          categories: b.categories.map(c => c.category.name),
+          imageLinks: { thumbnail: b.thumbnailUrl },
+          infoLink: b.infoLink
+        }
+      };
+    });
+    res.json(books);
+  } catch (error) {
+    console.error('Fetch User Books Error:', error);
+    res.status(500).json({ error: 'Failed to fetch user books' });
+  }
+});
 
 router.get('/me', authenticateToken, async (req, res) => {
   try {

@@ -1,6 +1,21 @@
-<div class="profile-container" *ngIf="username">
-  <h2>Welcome, {{ username }}!</h2>
-  <p>This is your profile page.</p>
-  <button (click)="logout()">Logout</button>
+<div class="profile-page" *ngIf="username">
+  <h2>{{ username }}'s Library</h2>
+
+  <div class="filters">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Search books" />
+    <select [(ngModel)]="selectedCategory">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+  </div>
+
+  <div class="playlists">
+    <button class="playlist-btn">Added Books</button>
+  </div>
+
+  <div class="books-grid">
+    <app-book-card *ngFor="let b of filteredBooks()" [book]="b"></app-book-card>
+  </div>
+
+  <button (click)="logout()" class="logout-btn">Logout</button>
 </div>
-  

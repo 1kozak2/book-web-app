@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Book } from '../../shared/components/book';
+import { LibraryService } from '../../services/library.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -14,8 +15,7 @@ import { Book } from '../../shared/components/book';
 export class BookDetailComponent implements OnInit {
   book: Book | undefined;
   apiUrl = 'http://localhost:3000/api/books';
-  userApiUrl = 'http://localhost:3000/api/user/books';
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private http: HttpClient, private library: LibraryService) {}
 
   ngOnInit(): void {
     const googleBooksId = this.route.snapshot.paramMap.get('id');
@@ -60,7 +60,7 @@ export class BookDetailComponent implements OnInit {
       isbn13: ''
     };
 
-    this.http.post(this.userApiUrl, payload).subscribe({
+    this.library.addBook(payload).subscribe({
       next: () => alert('Book added to your library!'),
       error: err => alert('Failed to add book: ' + err.message)
     });
