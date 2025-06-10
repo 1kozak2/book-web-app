@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Shelf } from '../shared/components/shelf';
 
 @Injectable({ providedIn: 'root' })
 export class ShelfService {
@@ -8,12 +9,12 @@ export class ShelfService {
 
   constructor(private http: HttpClient) {}
 
-  getShelves(): Observable<any[]> {
-    return this.http.get<any[]>(this.api);
+  getShelves(): Observable<Shelf[]> {
+    return this.http.get<Shelf[]>(this.api);
   }
 
-  createShelf(name: string): Observable<any> {
-    return this.http.post(this.api, { name });
+  createShelf(name: string): Observable<Shelf> {
+    return this.http.post<Shelf>(this.api, { name });
   }
 
   addBookToShelf(shelfId: number, payload: any): Observable<any> {

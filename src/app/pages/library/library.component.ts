@@ -1,4 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { Shelf } from '../../shared/components/shelf';
+  shelves: Shelf[] = [];
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
