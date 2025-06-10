@@ -4,7 +4,7 @@
     <div *ngIf="loading" class="loading">Ładowanie książek...</div>
   
     <div *ngIf="!loading" class="book-grid">
-      <div
+      <!-- <div
         class="book-card"
         *ngFor="let book of books"
         (click)="openBook(book)"
@@ -12,7 +12,14 @@
         <img [src]="book.cover" alt="Book cover" class="book-cover" />
         <h3 class="book-title">{{ book.title }}</h3>
         <p class="book-author">{{ book.author }}</p>
-      </div>
+      </div> -->
+     
+    <app-book-card
+      *ngFor="let book of books"
+      [book]="book"
+    ></app-book-card>
+
+  
     </div>
   </div>
   

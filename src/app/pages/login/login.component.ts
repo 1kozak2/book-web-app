@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   standalone: true,
@@ -15,10 +17,9 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
-  authService: any;
   errorMsg: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   onLogin(): void {
     const loginData = {

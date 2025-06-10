@@ -14,18 +14,18 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<{ token: string; username: string }>(`${this.API}/login`, {
-      email,
-      password,
-    }).pipe(
-      tap(res => {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('username', res.username);
-        this.userSubject.next(res.username);
-      })
-    );
-  }
-
+  return this.http.post<{ token: string; user: { username: string; email: string; id: number } }>(
+    `${this.API}/login`,
+    { email, password }
+  ).pipe(
+    tap(res => {
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('username', res.user.username);  // ✅ FIXED
+      localStorage.setItem('user', JSON.stringify(res.user)); // optional: store whole user
+      this.userSubject.next(res.user.username);
+    })
+  );
+}
   register(username: string, email: string, password: string) {
     return this.http.post(`${this.API}/register`, { username, email, password });
   }
