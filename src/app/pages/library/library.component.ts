@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -8,6 +9,7 @@ import { LibraryService } from '../../services/library.service';
 import { ShelfService } from '../../services/shelf.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { Book } from '../../shared/components/book';
+import { Shelf } from '../../shared/components/shelf';
 
 
 @Component({
@@ -23,11 +25,9 @@ export class LibraryComponent implements OnInit {
   categories: string[] = [];
   selectedCategory = '';
   searchTerm = '';
-  shelves: any[] = [];
+  shelves: Shelf[] = [];
   newShelfName = '';
-
   showAllShelves = false;
-
 
   constructor(
     private auth: AuthService,
@@ -73,7 +73,6 @@ export class LibraryComponent implements OnInit {
       error: err => console.error('Failed to create shelf', err),
     });
   }
-
 
   filteredBooks(): Book[] {
     return this.books.filter(b => {

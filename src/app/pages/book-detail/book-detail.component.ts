@@ -7,6 +7,8 @@ import { Book } from '../../shared/components/book';
 import { LibraryService } from '../../services/library.service';
 import { ShelfService } from '../../services/shelf.service';
 
+import { Shelf } from '../../shared/components/shelf';
+
 @Component({
   selector: 'app-book-detail',
   standalone: true,
@@ -17,7 +19,9 @@ import { ShelfService } from '../../services/shelf.service';
 export class BookDetailComponent implements OnInit {
   book: Book | undefined;
   apiUrl = 'http://localhost:3000/api/books';
-  shelves: any[] = [];
+
+  shelves: Shelf[] = [];
+
   selectedShelfId: number | null = null;
   showDialog = false;
 
