@@ -169,6 +169,40 @@ router.post('/user/shelves', authenticateToken, async (req, res) => {
   }
 });
 
+// Generate share token for shelf
+router.post('/user/shelves/:id/share', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const shelfId = parseInt(req.params.id, 10);
+  try {
+    const shelf = await prisma.shelf.findFirst({ where: { id: shelfId, userId } });
+    if (!shelf) return res.status(404).json({ error: 'Shelf not found' });
+    if (!shelf.shareToken) {
+      const token = require('crypto').randomBytes(16).toString('hex');
+      await prisma.shelf.update({ where: { id: shelf.id }, data: { shareToken: token } });
+      shelf.shareToken = token;
+    }
+    res.json({ shareToken: shelf.shareToken });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to generate share token' });
+  }
+});
+
+// Update profile/preferences
+router.put('/me', authenticateToken, async (req, res) => {
+  try {
+    const { username, preferences } = req.body || {};
+    const data = {};
+    if (username) data.username = username;
+    if (preferences !== undefined) data.preferences = preferences;
+    const user = await prisma.user.update({ where: { id: req.user.id }, data });
+    res.json(serializeUser(user));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
 // Get shelves with books
 router.get('/user/shelves', authenticateToken, async (req, res) => {
   const userId = req.user.id;
@@ -234,6 +268,52 @@ router.post('/user/shelves/:id/books', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to add book to shelf' });
+  }
+});
+
+// View shared shelf
+router.get('/shared/:token', async (req, res) => {
+  const { token } = req.params;
+  try {
+    const shelf = await prisma.shelf.findFirst({
+      where: { shareToken: token },
+      include: {
+        shelfBooks: {
+          include: {
+            book: {
+              include: {
+                authors: { include: { author: true } },
+                categories: { include: { category: true } }
+              }
+            }
+          }
+        }
+      }
+    });
+    if (!shelf) return res.status(404).json({ error: 'Shelf not found' });
+    const result = {
+      id: shelf.id,
+      name: shelf.name,
+      books: shelf.shelfBooks.map(sb => ({
+        id: sb.book.googleBooksId || String(sb.book.id),
+        volumeInfo: {
+          title: sb.book.title,
+          subtitle: sb.book.subtitle,
+          description: sb.book.description,
+          publishedDate: sb.book.publishedDate?.toISOString(),
+          pageCount: sb.book.pageCount,
+          language: sb.book.language,
+          authors: sb.book.authors.map(a => a.author.name),
+          categories: sb.book.categories.map(c => c.category.name),
+          imageLinks: { thumbnail: sb.book.thumbnailUrl },
+          infoLink: sb.book.infoLink
+        }
+      }))
+    };
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch shared shelf' });
   }
 });
 
