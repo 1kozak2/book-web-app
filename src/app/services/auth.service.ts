@@ -10,7 +10,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     const storedUser = localStorage.getItem('username');
-    if (storedUser) this.userSubject.next(storedUser);
+    if (storedUser) {
+      this.userSubject.next(storedUser);
+      this.verifySession();
+    }
   }
 
   login(email: string, password: string) {
@@ -34,6 +37,17 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.userSubject.next(null);
+  }
+
+  verifySession(): void {
+    const token = this.getToken();
+    if (!token) return;
+    this.http.get<{ username: string }>('http://localhost:3000/api/user/me').subscribe({
+      next: user => {
+        this.userSubject.next(user.username);
+      },
+      error: () => this.logout()
+    });
   }
 
   getToken(): string | null {
