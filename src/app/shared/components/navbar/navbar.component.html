@@ -21,12 +21,14 @@
       </div>
       
       <div *ngIf="username" class="user-info">
-        <img
-          [src]="'https://api.dicebear.com/6.x/initials/svg?seed=' + username"
-          alt="Avatar"
-          class="avatar"
-        />
-        <span class="username">{{ username }}</span>
+        <a routerLink="/profile" class="profile-link">
+          <img
+            [src]="'https://api.dicebear.com/6.x/initials/svg?seed=' + username"
+            alt="Avatar"
+            class="avatar"
+          />
+          <span class="username">{{ username }}</span>
+        </a>
         <button (click)="logout()" class="login-btn">Wyloguj</button>
       </div>
       

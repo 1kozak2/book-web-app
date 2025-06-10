@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { LibraryService } from '../../services/library.service';
+import { ShelfService } from '../../services/shelf.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 import { Book } from '../../shared/components/book';
 
@@ -11,7 +13,7 @@ import { Book } from '../../shared/components/book';
 @Component({
   standalone: true,
   selector: 'app-profile',
-  imports: [CommonModule, RouterModule, FormsModule, BookCardComponent],
+  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule, BookCardComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -21,8 +23,16 @@ export class ProfileComponent implements OnInit {
   categories: string[] = [];
   selectedCategory = '';
   searchTerm = '';
+  shelves: any[] = [];
+  newShelfName = '';
+  selectedShelf: { [key: string]: number } = {};
 
-  constructor(private auth: AuthService, private router: Router, private library: LibraryService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private library: LibraryService,
+    private shelvesService: ShelfService
+  ) {}
 
   ngOnInit(): void {
     if (!this.auth.isLoggedIn()) {
@@ -31,6 +41,7 @@ export class ProfileComponent implements OnInit {
     }
     this.username = this.auth.getUsername();
     this.loadBooks();
+    this.loadShelves();
   }
 
   loadBooks(): void {
@@ -40,6 +51,50 @@ export class ProfileComponent implements OnInit {
         this.categories = Array.from(new Set(books.flatMap(b => b.volumeInfo.categories || [])));
       },
       error: err => console.error('Failed to load books', err)
+    });
+  }
+
+  loadShelves(): void {
+    this.shelvesService.getShelves().subscribe({
+      next: s => (this.shelves = s),
+      error: err => console.error('Failed to load shelves', err),
+    });
+  }
+
+  createShelf(): void {
+    if (!this.newShelfName.trim()) return;
+    this.shelvesService.createShelf(this.newShelfName).subscribe({
+      next: shelf => {
+        this.shelves.push(shelf);
+        this.newShelfName = '';
+      },
+      error: err => console.error('Failed to create shelf', err),
+    });
+  }
+
+  addBookToShelf(book: Book, shelfId: number): void {
+    if (!shelfId) return;
+    const payload = {
+      googleBooksId: book.id,
+      title: book.volumeInfo.title,
+      subtitle: book.volumeInfo.subtitle,
+      description: book.volumeInfo.description,
+      publishedDate: book.volumeInfo.publishedDate,
+      pageCount: book.volumeInfo.pageCount,
+      language: book.volumeInfo.language,
+      thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
+      previewLink: '',
+      infoLink: book.volumeInfo.infoLink,
+      averageRating: book.volumeInfo.averageRating,
+      ratingsCount: book.volumeInfo.ratingsCount,
+      isbn10: '',
+      isbn13: '',
+      authors: book.volumeInfo.authors,
+      categories: book.volumeInfo.categories,
+    };
+    this.shelvesService.addBookToShelf(shelfId, payload).subscribe({
+      next: () => this.loadShelves(),
+      error: err => console.error('Failed to add book to shelf', err),
     });
   }
 
