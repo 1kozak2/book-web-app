@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { Book } from '../../shared/components/book';
 import { LibraryService } from '../../services/library.service';
 import { ShelfService } from '../../services/shelf.service';
+import { ReviewService } from '../../services/review.service';
 
 import { Shelf } from '../../shared/components/shelf';
 
@@ -21,26 +23,36 @@ export class BookDetailComponent implements OnInit {
   apiUrl = 'http://localhost:3000/api/books';
 
   shelves: Shelf[] = [];
-
+  
   selectedShelfId: number | null = null;
   showDialog = false;
+  reviews: any[] = [];
+  reviewText = '';
+  reviewRating: number | null = null;
+  safeDescription: SafeHtml | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private library: LibraryService,
-    private shelfService: ShelfService
+    private shelfService: ShelfService,
+    private reviewService: ReviewService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     const googleBooksId = this.route.snapshot.paramMap.get('id');
     this.http.get<Book>(`${this.apiUrl}/google/${googleBooksId}`).subscribe(data => {
       this.book = data;
+      this.safeDescription = data.volumeInfo.description ? this.sanitizer.bypassSecurityTrustHtml(data.volumeInfo.description) : null;
     });
     this.shelfService.getShelves().subscribe({
       next: s => (this.shelves = s),
       error: err => console.error('Failed to load shelves', err),
     });
+    if (googleBooksId) {
+      this.reviewService.getReviews(googleBooksId).subscribe(r => this.reviews = r);
+    }
   }
 
   getAuthorNames(): string {
@@ -94,5 +106,13 @@ export class BookDetailComponent implements OnInit {
 
   cancelAdd(): void {
     this.showDialog = false;
+  }
+
+  addReview(): void {
+    if (!this.book) return;
+    this.reviewService.addReview(this.book.id, this.reviewRating || 0, this.reviewText, this.book).subscribe({
+      next: r => { this.reviews.unshift(r); this.reviewText = ''; this.reviewRating = null; },
+      error: () => alert('Failed to add review')
+    });
   }
 }
