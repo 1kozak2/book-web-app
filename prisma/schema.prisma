@@ -7,35 +7,37 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
 model User {
-  id           Int      @id @default(autoincrement())
-  username     String   @unique
-  email        String   @unique
+  id           Int        @id @default(autoincrement())
+  username     String     @unique
+  email        String     @unique
   passwordHash String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime   @default(now())
   userBooks    UserBook[]
   shelves      Shelf[]
 }
 
 model Book {
-  id             Int          @id @default(autoincrement())
-  googleBooksId  String?      @unique
-  title          String
-  subtitle       String?
-  description    String?
-  publishedDate  DateTime?
-  pageCount      Int?
-  language       String?
-  thumbnailUrl   String?
-  previewLink    String?
-  infoLink       String?
-  averageRating  Float?
-  ratingsCount   Int?
-  isbn10         String?
-  isbn13         String?
-  authors        BookAuthor[]
-  categories     BookCategory[]
-  userBooks      UserBook[]
+  id            Int            @id @default(autoincrement())
+  googleBooksId String?        @unique
+  title         String
+  subtitle      String?
+  description   String?
+  publishedDate DateTime?
+  pageCount     Int?
+  language      String?
+  thumbnailUrl  String?
+  previewLink   String?
+  infoLink      String?
+  averageRating Float?
+  ratingsCount  Int?
+  isbn10        String?
+  isbn13        String?
+  authors       BookAuthor[]
+  categories    BookCategory[]
+  userBooks     UserBook[]
+  ShelfBook     ShelfBook[]
 }
 
 model Author {
@@ -45,7 +47,7 @@ model Author {
 }
 
 model BookAuthor {
-  book     Book @relation(fields: [bookId], references: [id])
+  book     Book   @relation(fields: [bookId], references: [id])
   bookId   Int
   author   Author @relation(fields: [authorId], references: [id])
   authorId Int
@@ -54,8 +56,8 @@ model BookAuthor {
 }
 
 model Category {
-  id    Int           @id @default(autoincrement())
-  name  String        @unique
+  id    Int            @id @default(autoincrement())
+  name  String         @unique
   books BookCategory[]
 }
 
@@ -69,31 +71,31 @@ model BookCategory {
 }
 
 model UserBook {
-  user     User   @relation(fields: [userId], references: [id])
-  userId   Int
-  book     Book   @relation(fields: [bookId], references: [id])
-  bookId   Int
-  status   String
-  addedAt  DateTime @default(now())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int
+  book    Book     @relation(fields: [bookId], references: [id])
+  bookId  Int
+  status  String
+  addedAt DateTime @default(now())
 
   @@id([userId, bookId])
 }
 
 model Shelf {
-  id        Int        @id @default(autoincrement())
-  name      String
-  user      User       @relation(fields: [userId], references: [id])
-  userId    Int
+  id         Int         @id @default(autoincrement())
+  name       String
+  user       User        @relation(fields: [userId], references: [id])
+  userId     Int
   shelfBooks ShelfBook[]
-  createdAt DateTime   @default(now())
+  createdAt  DateTime    @default(now())
 }
 
 model ShelfBook {
-  shelf     Shelf @relation(fields: [shelfId], references: [id])
-  shelfId   Int
-  book      Book  @relation(fields: [bookId], references: [id])
-  bookId    Int
-  addedAt   DateTime @default(now())
+  shelf   Shelf    @relation(fields: [shelfId], references: [id])
+  shelfId Int
+  book    Book     @relation(fields: [bookId], references: [id])
+  bookId  Int
+  addedAt DateTime @default(now())
 
   @@id([shelfId, bookId])
 }
