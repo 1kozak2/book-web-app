@@ -1,44 +1,5 @@
 <div class="profile-page" *ngIf="username">
-  <h2>{{ username }}'s Library</h2>
-
-  <div class="filters">
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Search books" />
-    <select [(ngModel)]="selectedCategory">
-      <option value="">All Categories</option>
-      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-    </select>
-  </div>
-
-  <div class="playlists">
-    <button class="playlist-btn">Added Books</button>
-    <div class="create-shelf">
-      <input type="text" [(ngModel)]="newShelfName" placeholder="New shelf name" />
-      <button (click)="createShelf()">Create Shelf</button>
-    </div>
-  </div>
-
-  <div class="books-grid">
-    <div class="book-wrapper" *ngFor="let b of filteredBooks()">
-      <app-book-card [book]="b"></app-book-card>
-      <div class="shelf-select" *ngIf="shelves.length">
-        <select [(ngModel)]="selectedShelf[b.id]">
-          <option [ngValue]="null">Select shelf</option>
-          <option *ngFor="let s of shelves" [ngValue]="s.id">{{ s.name }}</option>
-        </select>
-        <button (click)="addBookToShelf(b, selectedShelf[b.id])">Add</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="shelf-list" *ngIf="shelves.length">
-    <h3>Your Shelves</h3>
-    <div *ngFor="let s of shelves" class="shelf">
-      <h4>{{ s.name }}</h4>
-      <div class="shelf-books">
-        <app-book-card *ngFor="let sb of s.books" [book]="sb"></app-book-card>
-      </div>
-    </div>
-  </div>
-
+  <h2>{{ username }}'s Profile</h2>
+  <p>Account details coming soon...</p>
   <button (click)="logout()" class="logout-btn">Logout</button>
 </div>
