@@ -3,6 +3,7 @@
   color: #fff;
 }
 
+
 .controls {
   margin-bottom: 1rem;
   display: flex;
@@ -16,13 +17,14 @@
   border: 1px solid #333;
   background: #1e1e1e;
   color: #fff;
-}
+
 
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
 }
+
 
 .recent-section {
   margin-bottom: 2rem;
@@ -48,12 +50,15 @@
 
 .create-shelf {
   margin-top: 1rem;
+
   display: flex;
   gap: 0.5rem;
 }
+
 
 .shelf-books {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
 }
+

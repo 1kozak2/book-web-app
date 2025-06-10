@@ -25,7 +25,9 @@ export class LibraryComponent implements OnInit {
   searchTerm = '';
   shelves: any[] = [];
   newShelfName = '';
+
   showAllShelves = false;
+
 
   constructor(
     private auth: AuthService,
@@ -72,6 +74,7 @@ export class LibraryComponent implements OnInit {
     });
   }
 
+
   filteredBooks(): Book[] {
     return this.books.filter(b => {
       const matchesCategory = this.selectedCategory ? (b.volumeInfo.categories || []).includes(this.selectedCategory) : true;
@@ -81,3 +84,4 @@ export class LibraryComponent implements OnInit {
   }
 
 }
+

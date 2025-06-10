@@ -1,13 +1,16 @@
 <div class="library-page" *ngIf="username">
   <h2>{{ username }}'s Library</h2>
 
+
   <div class="controls">
+
     <input type="text" [(ngModel)]="searchTerm" placeholder="Search books" />
     <select [(ngModel)]="selectedCategory">
       <option value="">All Categories</option>
       <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
     </select>
   </div>
+
 
   <section class="recent-section">
     <h3>Recently Added</h3>
@@ -35,4 +38,5 @@
     <input type="text" [(ngModel)]="newShelfName" placeholder="New shelf name" />
     <button (click)="createShelf()">Create Shelf</button>
   </div>
+
 </div>
