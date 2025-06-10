@@ -4,6 +4,7 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { LibraryComponent } from './pages/library/library.component';
 import { AuthGuard } from './services/auth.guard';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { BestsellersComponent } from './pages/bestsellers/bestsellers.component';
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'catalogue', component: CatalogComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'bestsellers', component: BestsellersComponent },
   { path: 'about-us', component: AboutUsComponent },

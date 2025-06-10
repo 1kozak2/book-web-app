@@ -10,6 +10,7 @@
         <li><a routerLink="/catalogue" routerLinkActive="active">Catalogue</a></li>
         <li><a routerLink="/about-us" routerLinkActive="active">About us</a></li>
         <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        <li *ngIf="username"><a routerLink="/library" routerLinkActive="active">Library</a></li>
 
 
       </ul>
