@@ -33,6 +33,14 @@ export class AuthService {
     return this.http.post(`${this.API}/register`, { username, email, password });
   }
 
+  requestPasswordReset(email: string) {
+    return this.http.post<{ token: string }>(`${this.API}/request-reset`, { email });
+  }
+
+  resetPassword(token: string, password: string) {
+    return this.http.post(`${this.API}/reset`, { token, password });
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('username');

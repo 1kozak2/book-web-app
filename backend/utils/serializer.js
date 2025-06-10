@@ -3,7 +3,9 @@ function serializeUser(user) {
       id: user.id,
       username: user.username,
       email: user.email,
-      createdAt: user.createdAt
+      createdAt: user.createdAt,
+      isAdmin: user.isAdmin,
+      preferences: user.preferences
       // No passwordHash included!
     };
   }

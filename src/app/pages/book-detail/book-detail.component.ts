@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Book } from '../../shared/components/book';
 import { LibraryService } from '../../services/library.service';
 import { ShelfService } from '../../services/shelf.service';
+import { ReviewService } from '../../services/review.service';
 
 import { Shelf } from '../../shared/components/shelf';
 
@@ -21,15 +22,19 @@ export class BookDetailComponent implements OnInit {
   apiUrl = 'http://localhost:3000/api/books';
 
   shelves: Shelf[] = [];
-
+  
   selectedShelfId: number | null = null;
   showDialog = false;
+  reviews: any[] = [];
+  reviewText = '';
+  reviewRating: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private library: LibraryService,
-    private shelfService: ShelfService
+    private shelfService: ShelfService,
+    private reviewService: ReviewService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +46,9 @@ export class BookDetailComponent implements OnInit {
       next: s => (this.shelves = s),
       error: err => console.error('Failed to load shelves', err),
     });
+    if (googleBooksId) {
+      this.reviewService.getReviews(googleBooksId).subscribe(r => this.reviews = r);
+    }
   }
 
   getAuthorNames(): string {
@@ -94,5 +102,13 @@ export class BookDetailComponent implements OnInit {
 
   cancelAdd(): void {
     this.showDialog = false;
+  }
+
+  addReview(): void {
+    if (!this.book) return;
+    this.reviewService.addReview(this.book.id, this.reviewRating || 0, this.reviewText, this.book).subscribe({
+      next: r => { this.reviews.unshift(r); this.reviewText = ''; this.reviewRating = null; },
+      error: () => alert('Failed to add review')
+    });
   }
 }

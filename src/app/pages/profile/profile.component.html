@@ -1,5 +1,11 @@
 <div class="profile-page" *ngIf="username">
   <h2>{{ username }}'s Profile</h2>
-  <p>Account details coming soon...</p>
-
+  <div>
+    <label>New Username: <input [(ngModel)]="newUsername" /></label>
+  </div>
+  <div>
+    <label>Preferences JSON:</label>
+    <textarea [(ngModel)]="preferencesText"></textarea>
+  </div>
+  <button (click)="save()">Save</button>
 </div>
