@@ -1,0 +1,59 @@
+.library-page {
+  padding: 2rem;
+  color: #fff;
+}
+
+.controls {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.controls input,
+.controls select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #1e1e1e;
+  color: #fff;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.recent-section {
+  margin-bottom: 2rem;
+}
+
+.shelf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.see-all {
+  cursor: pointer;
+  color: #1db954;
+  text-decoration: underline;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.create-shelf {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.shelf-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
