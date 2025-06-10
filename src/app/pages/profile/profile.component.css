@@ -3,53 +3,6 @@
   color: #fff;
 }
 
-.filters {
-  margin-bottom: 1rem;
-}
-
-.filters input,
-.filters select {
-  margin-right: 0.5rem;
-}
-
-.books-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-}
-
-.playlists {
-  margin-bottom: 1rem;
-}
-
-.create-shelf {
-  margin-top: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.book-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.shelf-select {
-  margin-top: 0.5rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.shelf-list {
-  margin-top: 2rem;
-}
-
-.shelf-books {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-}
-
 .logout-btn {
   margin-top: 1rem;
 }
