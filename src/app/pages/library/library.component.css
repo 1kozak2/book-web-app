@@ -3,14 +3,21 @@
   color: #fff;
 }
 
-.filters {
+
+.controls {
   margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
-.filters input,
-.filters select {
-  margin-right: 0.5rem;
-}
+.controls input,
+.controls select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background: #1e1e1e;
+  color: #fff;
+
 
 .books-grid {
   display: grid;
@@ -18,31 +25,36 @@
   gap: 1rem;
 }
 
-.playlists {
-  margin-bottom: 1rem;
+
+.recent-section {
+  margin-bottom: 2rem;
 }
 
-.create-shelf {
-  margin-top: 0.5rem;
+.shelf-header {
   display: flex;
-  gap: 0.5rem;
-}
-
-.book-wrapper {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
-.shelf-select {
-  margin-top: 0.5rem;
+.see-all {
+  cursor: pointer;
+  color: #1db954;
+  text-decoration: underline;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.create-shelf {
+  margin-top: 1rem;
+
   display: flex;
   gap: 0.5rem;
 }
 
-.shelf-list {
-  margin-top: 2rem;
-}
 
 .shelf-books {
   display: grid;
@@ -50,6 +62,3 @@
   gap: 1rem;
 }
 
-.logout-btn {
-  margin-top: 1rem;
-}

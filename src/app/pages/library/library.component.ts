@@ -25,7 +25,9 @@ export class LibraryComponent implements OnInit {
   searchTerm = '';
   shelves: any[] = [];
   newShelfName = '';
-  selectedShelf: { [key: string]: number } = {};
+
+  showAllShelves = false;
+
 
   constructor(
     private auth: AuthService,
@@ -72,31 +74,6 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  addBookToShelf(book: Book, shelfId: number): void {
-    if (!shelfId) return;
-    const payload = {
-      googleBooksId: book.id,
-      title: book.volumeInfo.title,
-      subtitle: book.volumeInfo.subtitle,
-      description: book.volumeInfo.description,
-      publishedDate: book.volumeInfo.publishedDate,
-      pageCount: book.volumeInfo.pageCount,
-      language: book.volumeInfo.language,
-      thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
-      previewLink: '',
-      infoLink: book.volumeInfo.infoLink,
-      averageRating: book.volumeInfo.averageRating,
-      ratingsCount: book.volumeInfo.ratingsCount,
-      isbn10: '',
-      isbn13: '',
-      authors: book.volumeInfo.authors,
-      categories: book.volumeInfo.categories,
-    };
-    this.shelvesService.addBookToShelf(shelfId, payload).subscribe({
-      next: () => this.loadShelves(),
-      error: err => console.error('Failed to add book to shelf', err),
-    });
-  }
 
   filteredBooks(): Book[] {
     return this.books.filter(b => {
@@ -106,8 +83,5 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  logout(): void {
-    this.auth.logout();
-    this.router.navigate(['/login']);
-  }
 }
+

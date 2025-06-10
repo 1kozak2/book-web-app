@@ -24,9 +24,23 @@
         <p>{{ book.volumeInfo.description }}</p>
       </div>
 
-      <div class="book-actions">
-        <a [href]="getInfoLink()" target="_blank" class="action-button">View in Store</a>
-        <button class="action-button filled" (click)="addToLibrary()">Add to My Library</button>
+  <div class="book-actions">
+    <a [href]="getInfoLink()" target="_blank" class="action-button">View in Store</a>
+    <button class="action-button filled" (click)="addToLibrary()">Add to My Library</button>
+  </div>
+  </div>
+  </div>
+
+  <div class="add-dialog" *ngIf="showDialog">
+    <div class="dialog-content">
+      <h3>Select Shelf</h3>
+      <select [(ngModel)]="selectedShelfId">
+        <option [ngValue]="null">Choose...</option>
+        <option *ngFor="let s of shelves" [ngValue]="s.id">{{ s.name }}</option>
+      </select>
+      <div class="dialog-actions">
+        <button class="action-button filled" (click)="confirmAdd()">Add</button>
+        <button class="action-button" (click)="cancelAdd()">Cancel</button>
       </div>
     </div>
   </div>
