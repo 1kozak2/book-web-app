@@ -20,4 +20,12 @@ export class ShelfService {
   addBookToShelf(shelfId: number, payload: any): Observable<any> {
     return this.http.post(`${this.api}/${shelfId}/books`, payload);
   }
+
+  generateShareToken(shelfId: number): Observable<{ shareToken: string }> {
+    return this.http.post<{ shareToken: string }>(`${this.api}/${shelfId}/share`, {});
+  }
+
+  getSharedShelf(token: string): Observable<Shelf> {
+    return this.http.get<Shelf>(`http://localhost:3000/api/shared/${token}`);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { Book } from '../../shared/components/book';
 import { LibraryService } from '../../services/library.service';
@@ -29,18 +30,27 @@ export class BookDetailComponent implements OnInit {
   reviewText = '';
   reviewRating: number | null = null;
 
+  safeDescription: SafeHtml | null = null;
+
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private library: LibraryService,
     private shelfService: ShelfService,
-    private reviewService: ReviewService
+
+    private reviewService: ReviewService,
+    private sanitizer: DomSanitizer
+
   ) {}
 
   ngOnInit(): void {
     const googleBooksId = this.route.snapshot.paramMap.get('id');
     this.http.get<Book>(`${this.apiUrl}/google/${googleBooksId}`).subscribe(data => {
       this.book = data;
+
+      this.safeDescription = data.volumeInfo.description ? this.sanitizer.bypassSecurityTrustHtml(data.volumeInfo.description) : null;
+
     });
     this.shelfService.getShelves().subscribe({
       next: s => (this.shelves = s),

@@ -19,9 +19,9 @@
         </p>
       </div>
 
-      <div *ngIf="book.volumeInfo.description" class="book-description">
+      <div *ngIf="safeDescription" class="book-description">
         <h3>Description</h3>
-        <p>{{ book.volumeInfo.description }}</p>
+        <div [innerHTML]="safeDescription"></div>
       </div>
 
   <div class="book-actions">
