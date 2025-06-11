@@ -11,6 +11,7 @@ import { BestsellersComponent } from './pages/bestsellers/bestsellers.component'
 import { ContactComponent } from './pages/contact/contact.component';
 import { BookDetailComponent } from './pages/book-detail/book-detail.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
+import { ShelfComponent } from './pages/shelf/shelf.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,4 +25,5 @@ export const routes: Routes = [
   { path: 'about-us', component: AboutUsComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'password-reset', component: PasswordResetComponent },
+  { path: 'shelf/:id', component: ShelfComponent, canActivate: [AuthGuard] },
 ];

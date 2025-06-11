@@ -1,0 +1,6 @@
+<div class="shelf-page" *ngIf="shelf">
+  <h2>{{ shelf.name }}</h2>
+  <div class="shelf-books">
+    <app-book-card *ngFor="let b of shelf.books" [book]="b"></app-book-card>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Shelf } from '../shared/components/shelf';
 
 @Injectable({ providedIn: 'root' })
@@ -27,5 +27,9 @@ export class ShelfService {
 
   getSharedShelf(token: string): Observable<Shelf> {
     return this.http.get<Shelf>(`http://localhost:3000/api/shared/${token}`);
+  }
+
+  getShelf(id: number): Observable<Shelf | null> {
+    return this.getShelves().pipe(map(arr => arr.find(s => s.id === id) || null));
   }
 }
