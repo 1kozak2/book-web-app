@@ -190,6 +190,54 @@ router.post('/user/shelves/:id/share', authenticateToken, async (req, res) => {
   }
 });
 
+// Update shelf name and visibility
+router.put('/user/shelves/:id', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const shelfId = parseInt(req.params.id, 10);
+  const { name, isPublic } = req.body || {};
+  try {
+    const shelf = await prisma.shelf.findFirst({ where: { id: shelfId, userId } });
+    if (!shelf) return res.status(404).json({ error: 'Shelf not found' });
+    const data = {};
+    if (name !== undefined) data.name = name;
+    if (isPublic !== undefined) {
+      if (isPublic) {
+        if (!shelf.shareToken) {
+          data.shareToken = require('crypto').randomBytes(16).toString('hex');
+        }
+      } else {
+        data.shareToken = null;
+      }
+    }
+    const updated = await prisma.shelf.update({ where: { id: shelfId }, data });
+    res.json({
+      id: updated.id,
+      name: updated.name,
+      shareToken: updated.shareToken,
+      isPublic: !!updated.shareToken,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update shelf' });
+  }
+});
+
+// Delete a shelf
+router.delete('/user/shelves/:id', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const shelfId = parseInt(req.params.id, 10);
+  try {
+    const shelf = await prisma.shelf.findFirst({ where: { id: shelfId, userId } });
+    if (!shelf) return res.status(404).json({ error: 'Shelf not found' });
+    await prisma.shelfBook.deleteMany({ where: { shelfId } });
+    await prisma.shelf.delete({ where: { id: shelfId } });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete shelf' });
+  }
+});
+
 // Update profile/preferences
 router.put('/me', authenticateToken, async (req, res) => {
   try {

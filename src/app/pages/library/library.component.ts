@@ -28,6 +28,9 @@ export class LibraryComponent implements OnInit {
   shelves: Shelf[] = [];
   newShelfName = '';
   showAllShelves = false;
+  editingShelf: Shelf | null = null;
+  editName = '';
+  editPublic = false;
 
   constructor(
     private auth: AuthService,
@@ -99,6 +102,39 @@ export class LibraryComponent implements OnInit {
       },
       error: err => console.error('Failed to share shelf', err)
     });
+  }
+
+  openEdit(shelf: Shelf): void {
+    this.editingShelf = shelf;
+    this.editName = shelf.name;
+    this.editPublic = !!shelf.isPublic;
+  }
+
+  saveEdit(): void {
+    if (!this.editingShelf) return;
+    this.shelvesService.updateShelf(this.editingShelf.id, { name: this.editName, isPublic: this.editPublic }).subscribe({
+      next: updated => {
+        Object.assign(this.editingShelf, updated);
+        this.editingShelf = null;
+      },
+      error: err => console.error('Failed to update shelf', err)
+    });
+  }
+
+  deleteShelf(): void {
+    if (!this.editingShelf) return;
+    const id = this.editingShelf.id;
+    this.shelvesService.deleteShelf(id).subscribe({
+      next: () => {
+        this.shelves = this.shelves.filter(s => s.id !== id);
+        this.editingShelf = null;
+      },
+      error: err => console.error('Failed to delete shelf', err)
+    });
+  }
+
+  cancelEdit(): void {
+    this.editingShelf = null;
   }
 
 }
