@@ -12,14 +12,17 @@
         <input type="password" id="password" name="password" [(ngModel)]="password" placeholder="Password" required />
       </div>
 
-      <button type="submit" class="login-button" [disabled]="!loginForm.valid">Zaloguj się</button>
-    </form>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    <p class="register-prompt">
-      Nie masz konta?
-      <a routerLink="/register">Zarejestruj się</a>
-    </p>
-    
+    <button type="submit" class="login-button" [disabled]="!loginForm.valid">Zaloguj się</button>
+  </form>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  <p class="register-prompt">
+    Nie masz konta?
+    <a routerLink="/register">Zarejestruj się</a>
+  </p>
+  <p class="register-prompt">
+    <a routerLink="/password-reset">Forgot password?</a>
+  </p>
+
   </div>
 </div>
 

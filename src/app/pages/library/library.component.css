@@ -109,8 +109,13 @@
 
 
 .shelf-books {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  display: flex;
+  overflow-x: auto;
   gap: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.shelf-books app-book-card {
+  flex: 0 0 auto;
 }
 
