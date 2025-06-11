@@ -7,14 +7,12 @@ const authRoutes = require('./routes/auth');
 const booksRoutes = require('./routes/books');
 const PORT = process.env.PORT || 3000;
 const userRoutes = require('./routes/user');
-const adminRoutes = require('./routes/admin');
 
 app.use(cors()); // Allow cross-origin requests
 app.use(express.json());
 app.use('/api', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/books', booksRoutes);
-app.use('/api/admin', adminRoutes);
 const GOOGLE_BOOKS_API_BASE_URL = 'https://www.googleapis.com/books/v1/volumes';
 
 

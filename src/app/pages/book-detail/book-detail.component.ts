@@ -29,6 +29,7 @@ export class BookDetailComponent implements OnInit {
   reviews: any[] = [];
   reviewText = '';
   reviewRating: number | null = null;
+  userRatingAverage: number | null = null;
 
   safeDescription: SafeHtml | null = null;
 
@@ -57,7 +58,10 @@ export class BookDetailComponent implements OnInit {
       error: err => console.error('Failed to load shelves', err),
     });
     if (googleBooksId) {
-      this.reviewService.getReviews(googleBooksId).subscribe(r => this.reviews = r);
+      this.reviewService.getReviews(googleBooksId).subscribe(r => {
+        this.reviews = r;
+        this.calculateAverage();
+      });
     }
   }
 
@@ -117,8 +121,23 @@ export class BookDetailComponent implements OnInit {
   addReview(): void {
     if (!this.book) return;
     this.reviewService.addReview(this.book.id, this.reviewRating || 0, this.reviewText, this.book).subscribe({
-      next: r => { this.reviews.unshift(r); this.reviewText = ''; this.reviewRating = null; },
+      next: r => {
+        this.reviews.unshift(r);
+        this.reviewText = '';
+        this.reviewRating = null;
+        this.calculateAverage();
+      },
       error: () => alert('Failed to add review')
     });
+  }
+
+  private calculateAverage(): void {
+    const ratings = this.reviews.map(r => r.rating).filter((r: number) => typeof r === 'number');
+    if (!ratings.length) {
+      this.userRatingAverage = null;
+      return;
+    }
+    const sum = ratings.reduce((a: number, b: number) => a + b, 0);
+    this.userRatingAverage = +(sum / ratings.length).toFixed(1);
   }
 }

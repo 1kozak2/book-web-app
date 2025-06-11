@@ -17,6 +17,9 @@
         <p *ngIf="book.volumeInfo.averageRating">
           <strong>Rating:</strong> {{ book.volumeInfo.averageRating }} ({{ book.volumeInfo.ratingsCount }} votes)
         </p>
+        <p *ngIf="userRatingAverage !== null">
+          <strong>User Rating:</strong> {{ userRatingAverage }} ({{ reviews.length }} review{{ reviews.length === 1 ? '' : 's' }})
+        </p>
       </div>
 
       <div *ngIf="safeDescription" class="book-description">
