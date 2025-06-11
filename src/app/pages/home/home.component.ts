@@ -12,24 +12,24 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent {
   books = [
     {
-      title: 'Władca Pierścieni',
-      author: 'J.R.R. Tolkien',
-      cover: 'https://covers.openlibrary.org/b/id/8231856-L.jpg'
+      title: 'Structure and Interpretation of Computer Programs',
+      author: 'Harold Abelson, Gerald Jay Sussman',
+      cover: 'https://covers.openlibrary.org/b/isbn/9780262510875-L.jpg'
     },
     {
-      title: 'Harry Potter',
-      author: 'J.K. Rowling',
-      cover: 'https://covers.openlibrary.org/b/id/7884861-L.jpg'
+      title: 'Functional Programming in Scala',
+      author: 'Paul Chiusano, Rúnar Bjarnason',
+      cover: 'https://covers.openlibrary.org/b/isbn/9781617290657-L.jpg'
     },
     {
-      title: '1984',
-      author: 'George Orwell',
-      cover: 'https://covers.openlibrary.org/b/id/7222246-L.jpg'
+      title: 'Learn You a Haskell for Great Good!',
+      author: 'Miran Lipovača',
+      cover: 'https://covers.openlibrary.org/b/isbn/9781593272838-L.jpg'
     },
     {
-      title: 'Zbrodnia i kara',
-      author: 'Fiodor Dostojewski',
-      cover: 'https://covers.openlibrary.org/b/id/11153291-L.jpg'
+      title: 'Programming Elixir ≥ 1.6',
+      author: 'Dave Thomas',
+      cover: 'https://covers.openlibrary.org/b/isbn/9781680502992-L.jpg'
     }
   ];
 }
