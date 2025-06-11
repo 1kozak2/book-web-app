@@ -106,4 +106,59 @@
     justify-content: flex-end;
     gap: 0.5rem;
   }
+
+.reviews {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .review-item {
+    background: #1e1e1e;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .add-review {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .add-review input,
+  .add-review textarea {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #222;
+    color: #fff;
+  }
+
+  .add-review input:focus,
+  .add-review textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #00cc5c;
+  }
+
+  .add-review button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    border: none;
+    background: #00cc5c;
+    color: #111;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+  }
+
+  .add-review button:hover {
+    background: #00b34d;
+  }
+
+  .add-review button:active {
+    transform: scale(0.96);
+  }
   
