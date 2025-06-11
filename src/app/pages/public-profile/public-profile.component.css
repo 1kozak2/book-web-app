@@ -35,5 +35,5 @@
 }
 
 .shelf-books app-book-card {
-  flex: 0 0 auto;
+  flex: 0 0 150px;
 }
