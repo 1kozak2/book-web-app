@@ -33,6 +33,14 @@ export class ShelfService {
     return this.http.delete(`${this.api}/${id}`);
   }
 
+  removeBookFromShelf(shelfId: number, bookId: string): Observable<any> {
+    return this.http.delete(`${this.api}/${shelfId}/books/${bookId}`);
+  }
+
+  removeBookFromAllShelves(bookId: string): Observable<any> {
+    return this.http.delete(`${this.api}/books/${bookId}`);
+  }
+
   getSharedShelf(token: string): Observable<Shelf> {
     return this.http.get<Shelf>(`http://localhost:3000/api/shared/${token}`);
   }

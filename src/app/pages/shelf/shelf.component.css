@@ -8,3 +8,15 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+
+.book-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.select-actions {
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+}

@@ -19,6 +19,7 @@
     </div>
   </section>
 
+
   <section *ngIf="shelves.length" class="shelf-preview">
     <div class="shelf-header">
       <h3>Your Shelves</h3>
@@ -38,6 +39,16 @@
         <div class="shelf-books">
           <app-book-card *ngFor="let sb of s.books" [book]="sb"></app-book-card>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section *ngIf="allBooks.length" class="all-books-section">
+    <h3>All Books</h3>
+    <div class="books-grid">
+      <div class="all-book" *ngFor="let b of allBooks">
+        <app-book-card [book]="b"></app-book-card>
+        <button (click)="deleteFromAll(b.id)">Remove</button>
       </div>
     </div>
   </section>
