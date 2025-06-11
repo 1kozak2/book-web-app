@@ -95,8 +95,14 @@
   figcaption { font-size: 0.85rem; margin-top: 8px; }
 }
 
+/* TEAM HEADING */
+.team h2 { margin-top: 60px; }
+
+/* FUTURE SECTION */
+.future { margin: 60px auto; max-width: 700px; font-size: 1.1rem; }
+
 /* TECH & COMMUNITY GRID */
-.tech-comm { display: grid; gap: 40px; margin: 60px 0; 
+.tech-comm { display: grid; gap: 40px; margin: 60px 0;
              article { max-width: 500px; margin: 0 auto; } }
 
 /* CTA */

@@ -110,3 +110,80 @@
   font-size: 0.9rem;
   color: #aaa;
 }
+
+/* FEATURES */
+.features-section {
+  padding: 3rem 2rem;
+  background-color: #181818;
+  color: white;
+  text-align: center;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #1db95433;
+}
+
+.feature-card h3 {
+  color: #1db954;
+  margin-bottom: 0.5rem;
+}
+
+/* TESTIMONIALS */
+.testimonials-section {
+  padding: 3rem 2rem;
+  background-color: #121212;
+  color: white;
+  text-align: center;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.testimonial {
+  background-color: #181818;
+  padding: 1.5rem;
+  border-radius: 12px;
+  font-style: italic;
+}
+
+.testimonial footer {
+  display: block;
+  margin-top: 0.5rem;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+/* FAQ */
+.faq-section {
+  padding: 3rem 2rem;
+  background-color: #181818;
+  color: white;
+}
+
+.faq-grid {
+  max-width: 800px;
+  margin: auto;
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+}
+
+.faq-item h3 {
+  color: #1db954;
+  margin-bottom: 0.5rem;
+}
