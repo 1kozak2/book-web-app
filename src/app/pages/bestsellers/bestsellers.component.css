@@ -46,8 +46,16 @@
     margin: 10px 0 4px;
   }
   
-  .book-author {
-    font-size: 0.9rem;
-    color: #aaa;
-  }
+.book-author {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.personal-rec {
+  margin-top: 40px;
+}
+
+.personal-rec h2 {
+  margin-bottom: 20px;
+}
   

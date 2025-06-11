@@ -9,9 +9,12 @@ export class AuthService {
   private readonly API = 'http://localhost:3000/api/auth';
 
   constructor(private http: HttpClient) {
+    const token = this.getToken();
     const storedUser = localStorage.getItem('username');
-    if (storedUser) {
-      this.userSubject.next(storedUser);
+    if (token) {
+      if (storedUser) {
+        this.userSubject.next(storedUser);
+      }
       this.verifySession();
     }
   }
@@ -52,6 +55,7 @@ export class AuthService {
     if (!token) return;
     this.http.get<{ username: string }>('http://localhost:3000/api/me').subscribe({
       next: user => {
+        localStorage.setItem('username', user.username);
         this.userSubject.next(user.username);
       },
       error: () => this.logout()
