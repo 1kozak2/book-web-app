@@ -4,16 +4,32 @@
   <!-- Search Controls -->
   <div class="search-controls">
     <input
-      [(ngModel)]="searchTerm"
+      [(ngModel)]="searchTitle"
       type="text"
-      placeholder="Szukaj książki..."
+      placeholder="Title"
       class="search-input"
     />
-    <button (click)="searchBooks()" class="search-button">Szukaj</button>
+    <input
+      [(ngModel)]="searchAuthor"
+      type="text"
+      placeholder="Author"
+      class="search-input"
+    />
+    <select [(ngModel)]="selectedCategory" class="search-select">
+      <option value="">All Categories</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+    <button (click)="searchBooks()" class="search-button">Search</button>
 
-    <select [(ngModel)]="sortBy" class="sort-select">
-      <option value="title">Tytuł</option>
-      <option value="author">Autor</option>
+    <select [(ngModel)]="sortOption" class="sort-select">
+      <option value="titleAsc">Title A–Z</option>
+      <option value="titleDesc">Title Z–A</option>
+      <option value="authorAsc">Author A–Z</option>
+      <option value="authorDesc">Author Z–A</option>
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+      <option value="rating">Highest Rating</option>
+      <option value="reviews">Most Reviewed</option>
     </select>
   </div>
 

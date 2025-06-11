@@ -14,8 +14,11 @@ import { Book } from '../../shared/components/book';
 })
 export class CatalogComponent implements OnInit {
   books: Book[] = [];
-  searchTerm = 'fiction';
-  sortBy: 'title' | 'author' = 'title';
+  searchTitle = '';
+  searchAuthor = '';
+  categories: string[] = [];
+  selectedCategory = '';
+  sortOption: string = 'titleAsc';
   startIndex = 0;
   maxResults = 20;
   loading = false;
@@ -25,17 +28,30 @@ export class CatalogComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    this.fetchCategories();
     this.searchBooks();
   }
 
+  fetchCategories(): void {
+    this.http.get<string[]>(`${this.apiUrl}/api/books/categories`).subscribe({
+      next: c => (this.categories = c),
+      error: err => console.error('Failed to load categories', err)
+    });
+  }
+
   searchBooks(): void {
-    if (!this.searchTerm.trim()) return;
+    const qParts: string[] = [];
+    if (this.searchTitle.trim()) qParts.push(`intitle:${this.searchTitle.trim()}`);
+    if (this.searchAuthor.trim()) qParts.push(`inauthor:${this.searchAuthor.trim()}`);
+    if (this.selectedCategory) qParts.push(`subject:${this.selectedCategory}`);
+    const q = qParts.join('+');
+    if (!q) return;
 
     this.loading = true;
     this.startIndex = 0;
-    this.lastQuery = this.searchTerm;
+    this.lastQuery = q;
 
-    this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.searchTerm)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
+    this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(q)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
       .subscribe(response => {
         const rawItems = Array.isArray(response) ? response : response.items || [];
         this.books = this.mapToBooks(rawItems);
@@ -45,6 +61,7 @@ export class CatalogComponent implements OnInit {
   }
 
   loadMore(): void {
+    if (!this.lastQuery) return;
     this.loading = true;
 
     this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.lastQuery)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
@@ -60,13 +77,26 @@ export class CatalogComponent implements OnInit {
   sortedBooks(): Book[] {
     if (!Array.isArray(this.books)) return [];
     return this.books.slice().sort((a, b) => {
-      const aValue = this.sortBy === 'author'
-        ? a.volumeInfo.authors?.[0] || ''
-        : a.volumeInfo.title;
-      const bValue = this.sortBy === 'author'
-        ? b.volumeInfo.authors?.[0] || ''
-        : b.volumeInfo.title;
-      return aValue.localeCompare(bValue);
+      switch (this.sortOption) {
+        case 'titleAsc':
+          return a.volumeInfo.title.localeCompare(b.volumeInfo.title);
+        case 'titleDesc':
+          return b.volumeInfo.title.localeCompare(a.volumeInfo.title);
+        case 'authorAsc':
+          return (a.volumeInfo.authors?.[0] || '').localeCompare(b.volumeInfo.authors?.[0] || '');
+        case 'authorDesc':
+          return (b.volumeInfo.authors?.[0] || '').localeCompare(a.volumeInfo.authors?.[0] || '');
+        case 'newest':
+          return new Date(b.volumeInfo.publishedDate || '').getTime() - new Date(a.volumeInfo.publishedDate || '').getTime();
+        case 'oldest':
+          return new Date(a.volumeInfo.publishedDate || '').getTime() - new Date(b.volumeInfo.publishedDate || '').getTime();
+        case 'rating':
+          return (b.volumeInfo.averageRating ?? 0) - (a.volumeInfo.averageRating ?? 0);
+        case 'reviews':
+          return (b.volumeInfo.ratingsCount ?? 0) - (a.volumeInfo.ratingsCount ?? 0);
+        default:
+          return 0;
+      }
     });
   }
 
@@ -82,8 +112,8 @@ export class CatalogComponent implements OnInit {
           publishedDate: item.volumeInfo.publishedDate,
           pageCount: item.volumeInfo.pageCount,
           language: item.volumeInfo.language,
-          averageRating: item.volumeInfo.averageRating,
-          ratingsCount: item.volumeInfo.ratingsCount,
+          averageRating: item.volumeInfo.averageRating ?? 0,
+          ratingsCount: item.volumeInfo.ratingsCount ?? 0,
           authors: item.volumeInfo.authors,
           categories: item.volumeInfo.categories,
           imageLinks: {

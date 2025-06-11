@@ -125,6 +125,19 @@ router.get('/:googleBooksId/reviews', async (req, res) => {
   }
 });
 
+// Get list of categories from the database
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await prisma.category.findMany({
+      orderBy: { name: 'asc' }
+    });
+    res.json(categories.map(c => c.name));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch categories' });
+  }
+});
+
 // Add review for a book
 router.post('/:googleBooksId/reviews', authenticateToken, async (req, res) => {
   const { googleBooksId } = req.params;
