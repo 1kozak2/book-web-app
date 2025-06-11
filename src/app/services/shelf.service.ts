@@ -25,6 +25,14 @@ export class ShelfService {
     return this.http.post<{ shareToken: string }>(`${this.api}/${shelfId}/share`, {});
   }
 
+  updateShelf(id: number, data: { name?: string; isPublic?: boolean }): Observable<Shelf> {
+    return this.http.put<Shelf>(`${this.api}/${id}`, data);
+  }
+
+  deleteShelf(id: number): Observable<any> {
+    return this.http.delete(`${this.api}/${id}`);
+  }
+
   getSharedShelf(token: string): Observable<Shelf> {
     return this.http.get<Shelf>(`http://localhost:3000/api/shared/${token}`);
   }

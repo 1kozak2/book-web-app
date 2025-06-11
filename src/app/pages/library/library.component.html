@@ -27,9 +27,13 @@
     <div class="shelf-list">
       <div class="shelf" *ngFor="let s of shelves | slice:0:(showAllShelves ? shelves.length : 6)">
         <div class="shelf-title">
-          <h4><a [routerLink]="['/shelf', s.id]" class="shelf-link">{{ s.name }}</a></h4>
-          <button *ngIf="!s.isPublic" (click)="shareShelf(s)">Share</button>
-          <a *ngIf="s.isPublic" [href]="'/shared/' + s.shareToken" target="_blank">Share Link</a>
+          <h4>{{ s.name }}</h4>
+          <div class="shelf-actions">
+            <a class="open-btn" [routerLink]="['/shelf', s.id]">Open</a>
+            <button class="edit-btn" (click)="openEdit(s)">Edit</button>
+            <button *ngIf="!s.isPublic" class="share-btn" (click)="shareShelf(s)">Share</button>
+            <a *ngIf="s.isPublic" class="share-link" [href]="'/shared/' + s.shareToken" target="_blank">Share Link</a>
+          </div>
         </div>
         <div class="shelf-books">
           <app-book-card *ngFor="let sb of s.books" [book]="sb"></app-book-card>
@@ -41,6 +45,28 @@
   <div class="create-shelf">
     <input type="text" [(ngModel)]="newShelfName" placeholder="New shelf name" />
     <button (click)="createShelf()">Create Shelf</button>
+  </div>
+
+  <div class="edit-dialog" *ngIf="editingShelf">
+    <div class="dialog-content">
+      <h3>Edit Shelf</h3>
+      <label>
+        Name:
+        <input [(ngModel)]="editName" />
+      </label>
+      <label>
+        Visibility:
+        <select [(ngModel)]="editPublic">
+          <option [ngValue]="false">Private</option>
+          <option [ngValue]="true">Public</option>
+        </select>
+      </label>
+      <div class="dialog-actions">
+        <button class="action-button filled" (click)="saveEdit()">Save</button>
+        <button class="action-button delete" (click)="deleteShelf()">Delete</button>
+        <button class="action-button" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
   </div>
 
 </div>
