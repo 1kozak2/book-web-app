@@ -1,11 +1,19 @@
-<div class="profile-page" *ngIf="username">
-  <h2>{{ username }}'s Profile</h2>
-  <div>
-    <label>New Username: <input [(ngModel)]="newUsername" /></label>
+<div class="profile-container" *ngIf="username">
+  <div class="profile-box animate">
+    <h2>Welcome, {{ username }}</h2>
+    <div class="input-group">
+      <label>New Username</label>
+      <input [(ngModel)]="newUsername" />
+    </div>
+    <div class="input-group">
+      <label>Favourite categories (comma separated)</label>
+      <input [(ngModel)]="categories" />
+    </div>
+    <div class="input-group">
+      <label>Favourite book</label>
+      <input [(ngModel)]="favouriteBook" />
+    </div>
+    <button class="action-button" (click)="save()">Save</button>
+    <button class="delete-button" (click)="deleteAccount()">Delete Account</button>
   </div>
-  <div>
-    <label>Preferences JSON:</label>
-    <textarea [(ngModel)]="preferencesText"></textarea>
-  </div>
-  <button (click)="save()">Save</button>
 </div>

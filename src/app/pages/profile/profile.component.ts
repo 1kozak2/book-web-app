@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
 export class ProfileComponent implements OnInit {
   username: string | null = null;
   newUsername = '';
-  preferencesText = '';
+  categories = '';
+  favouriteBook = '';
 
   constructor(private auth: AuthService, private router: Router, private http: HttpClient) {}
 
@@ -26,12 +27,19 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.username = this.auth.getUsername();
+    this.http.get<any>('http://localhost:3000/api/me').subscribe(user => {
+      this.categories = (user.preferences?.categories || []).join(', ');
+      this.favouriteBook = user.preferences?.favouriteBook || '';
+    });
   }
 
   save(): void {
     const payload: any = {};
     if (this.newUsername) payload.username = this.newUsername;
-    try { payload.preferences = JSON.parse(this.preferencesText || '{}'); } catch { payload.preferences = {}; }
+    payload.preferences = {
+      categories: this.categories.split(',').map((c: string) => c.trim()).filter((c: string) => c),
+      favouriteBook: this.favouriteBook
+    };
     this.http.put<any>('http://localhost:3000/api/me', payload).subscribe({
       next: user => {
         this.username = user.username;
@@ -40,6 +48,17 @@ export class ProfileComponent implements OnInit {
         alert('Profile updated');
       },
       error: err => alert('Failed to update profile')
+    });
+  }
+
+  deleteAccount(): void {
+    if (!confirm('Are you sure you want to delete your account?')) return;
+    this.auth.deleteAccount().subscribe({
+      next: () => {
+        this.auth.logout();
+        this.router.navigate(['/']);
+      },
+      error: () => alert('Failed to delete account')
     });
   }
 

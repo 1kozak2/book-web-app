@@ -253,6 +253,23 @@ router.put('/me', authenticateToken, async (req, res) => {
   }
 });
 
+// Delete account and all user data
+router.delete('/me', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  try {
+    await prisma.shelfBook.deleteMany({ where: { shelf: { userId } } });
+    await prisma.shelf.deleteMany({ where: { userId } });
+    await prisma.userBook.deleteMany({ where: { userId } });
+    await prisma.review.deleteMany({ where: { userId } });
+    await prisma.passwordResetToken.deleteMany({ where: { userId } });
+    await prisma.user.delete({ where: { id: userId } });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete account' });
+  }
+});
+
 // Get shelves with books
 router.get('/user/shelves', authenticateToken, async (req, res) => {
   const userId = req.user.id;
