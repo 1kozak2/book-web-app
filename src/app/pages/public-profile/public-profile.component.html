@@ -1,0 +1,9 @@
+<div *ngIf="profile" class="public-profile">
+  <h2>{{ profile.username }}'s Public Shelves</h2>
+  <img class="avatar" [src]="'https://api.dicebear.com/6.x/initials/svg?seed=' + profile.username" alt="avatar" />
+  <ul class="shelf-list">
+    <li *ngFor="let s of profile.shelves">
+      <a [routerLink]="'/shared/' + s.shareToken">{{ s.name }}</a>
+    </li>
+  </ul>
+</div>

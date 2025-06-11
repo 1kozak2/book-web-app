@@ -1,0 +1,14 @@
+.public-profile {
+  padding: 1rem;
+}
+.avatar {
+  width: 80px;
+  height: 80px;
+}
+.shelf-list {
+  list-style: none;
+  padding: 0;
+}
+.shelf-list li {
+  margin-bottom: 0.5rem;
+}

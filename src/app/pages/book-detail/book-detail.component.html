@@ -58,7 +58,9 @@
   <div class="reviews" *ngIf="reviews.length">
     <h3>Reviews</h3>
     <div class="review-item" *ngFor="let r of reviews">
-      <img class="review-avatar" [src]="'https://api.dicebear.com/6.x/initials/svg?seed=' + r.user.username" alt="avatar" />
+      <a [routerLink]="'/public-profile/' + r.user.id">
+        <img class="review-avatar" [src]="'https://api.dicebear.com/6.x/initials/svg?seed=' + r.user.username" alt="avatar" />
+      </a>
       <div class="review-content">
         <p class="review-meta"><strong>{{ r.user.username }}</strong> ({{ r.rating }}/5)</p>
         <p>{{ r.content }}</p>

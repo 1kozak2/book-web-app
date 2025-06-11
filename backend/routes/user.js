@@ -328,4 +328,35 @@ router.get('/shared/:token', async (req, res) => {
   }
 });
 
+// Public profile with public shelves only
+router.get('/:id/public', async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        shelves: {
+          where: { NOT: { shareToken: null } },
+          select: { id: true, name: true, shareToken: true }
+        }
+      }
+    });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({
+      id: user.id,
+      username: user.username,
+      shelves: user.shelves.map(s => ({
+        id: s.id,
+        name: s.name,
+        shareToken: s.shareToken
+      }))
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch public profile' });
+  }
+});
+
 module.exports = router;
