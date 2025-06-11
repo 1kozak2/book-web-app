@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { ShelfService } from '../../services/shelf.service';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
@@ -26,13 +26,20 @@ export class PublicProfileComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.userService.getPublicProfile(id).subscribe(p => {
+      // Initialize profile with empty books arrays
       this.profile = {
         username: p.username,
         shelves: p.shelves.map((s: Shelf) => ({ ...s, books: [] }))
       };
-      const requests = p.shelves.map((s: Shelf) =>
-        s.shareToken ? this.shelfService.getSharedShelf(s.shareToken) : of({ ...s, books: [] })
+
+      // Create requests to fetch shared shelf data
+      const requests: Observable<Shelf>[] = p.shelves.map((s: Shelf) =>
+        s.shareToken
+          ? this.shelfService.getSharedShelf(s.shareToken)
+          : of({ ...s, books: [] } as Shelf)
       );
+
+      // Execute all requests and update the books
       forkJoin(requests).subscribe((res: Shelf[]) => {
         res.forEach((shelfData: Shelf, idx: number) => {
           this.profile!.shelves[idx].books = shelfData.books;
