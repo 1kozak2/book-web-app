@@ -171,5 +171,39 @@ router.get('/recommendations/popular', async (req, res) => {
   }
 });
 
+// Personalized recommendations based on user's preferred categories
+router.get('/recommendations/personal', authenticateToken, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+    const categories = user?.preferences?.categories || [];
+    if (!categories.length) return res.json([]);
+
+    const results = [];
+    for (const cat of categories) {
+      const response = await axios.get(GOOGLE_BOOKS_API_BASE_URL, {
+        params: {
+          q: `subject:${cat}`,
+          maxResults: 5,
+          key: GOOGLE_API_KEY,
+        },
+      });
+      results.push(...(response.data.items || []));
+    }
+
+    const unique = [];
+    const map = new Map();
+    for (const item of results) {
+      if (!map.has(item.id)) {
+        map.set(item.id, true);
+        unique.push(item);
+      }
+    }
+    res.json(unique);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch recommendations' });
+  }
+});
+
 
 module.exports = router;

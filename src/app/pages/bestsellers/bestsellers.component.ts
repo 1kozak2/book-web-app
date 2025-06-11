@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 import { Book } from '../../shared/components/book';
 import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 
@@ -13,15 +14,19 @@ import { BookCardComponent } from '../../shared/components/book-card/book-card.c
 })
 export class BestsellersComponent implements OnInit {
   books: Book[] = [];
+  recommendations: Book[] = [];
   loading = false;
   startIndex = 0;
   maxResults = 20;
   apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   ngOnInit() {
     this.searchBooks();
+    if (this.auth.isLoggedIn()) {
+      this.loadRecommendations();
+    }
   }
 
   // fetchBestsellers(): void {
@@ -61,6 +66,14 @@ searchBooks(): void {
 
 loadMore(): void {
     this.searchBooks();
+}
+
+loadRecommendations(): void {
+    this.http.get<any>(`${this.apiUrl}/api/books/recommendations/personal`)
+      .subscribe(res => {
+        const raw = Array.isArray(res) ? res : res.items || [];
+        this.recommendations = this.mapToBooks(raw);
+      });
 }
   
     mapToBooks(raw: any[]): Book[] {
