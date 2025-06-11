@@ -12,11 +12,18 @@
 
 .controls input,
 .controls select {
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #333;
-  background: #1e1e1e;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #222;
   color: #fff;
+  transition: box-shadow 0.3s;
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #00cc5c;
 }
 
 
@@ -41,6 +48,11 @@
   cursor: pointer;
   color: #1db954;
   text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.see-all:hover {
+  color: #00b34d;
 }
 
 .shelf-grid {
@@ -54,6 +66,45 @@
 
   display: flex;
   gap: 0.5rem;
+}
+
+.create-shelf input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #222;
+  color: #fff;
+}
+
+.create-shelf input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #00cc5c;
+}
+
+.create-shelf button {
+  padding: 10px 20px;
+  border: none;
+  background: #00cc5c;
+  color: #111;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+
+.create-shelf button:hover {
+  background: #00b34d;
+}
+
+.create-shelf button:active {
+  transform: scale(0.96);
+}
+
+.shelf {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 8px;
 }
 
 
