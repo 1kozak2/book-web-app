@@ -31,6 +31,7 @@ export class LibraryComponent implements OnInit {
   editingShelf: Shelf | null = null;
   editName = '';
   editPublic = false;
+  allBooks: Book[] = [];
 
   constructor(
     private auth: AuthService,
@@ -61,9 +62,24 @@ export class LibraryComponent implements OnInit {
 
   loadShelves(): void {
     this.shelvesService.getShelves().subscribe({
-      next: s => (this.shelves = s),
+      next: s => {
+        this.shelves = s;
+        this.computeAllBooks();
+      },
       error: err => console.error('Failed to load shelves', err),
     });
+  }
+
+  private computeAllBooks(): void {
+    const map = new Map<string, Book>();
+    for (const shelf of this.shelves) {
+      for (const b of shelf.books) {
+        if (!map.has(b.id)) {
+          map.set(b.id, b);
+        }
+      }
+    }
+    this.allBooks = Array.from(map.values());
   }
 
   createShelf(): void {
@@ -72,6 +88,7 @@ export class LibraryComponent implements OnInit {
       next: shelf => {
         this.shelves.push(shelf);
         this.newShelfName = '';
+        this.computeAllBooks();
       },
       error: err => console.error('Failed to create shelf', err),
     });
@@ -128,6 +145,7 @@ export class LibraryComponent implements OnInit {
       next: () => {
         this.shelves = this.shelves.filter(s => s.id !== id);
         this.editingShelf = null;
+        this.computeAllBooks();
       },
       error: err => console.error('Failed to delete shelf', err)
     });
@@ -135,6 +153,18 @@ export class LibraryComponent implements OnInit {
 
   cancelEdit(): void {
     this.editingShelf = null;
+  }
+
+  deleteFromAll(bookId: string): void {
+    this.shelvesService.removeBookFromAllShelves(bookId).subscribe({
+      next: () => {
+        this.shelves.forEach(s => {
+          s.books = s.books.filter(b => b.id !== bookId);
+        });
+        this.computeAllBooks();
+      },
+      error: err => console.error('Failed to delete from all shelves', err)
+    });
   }
 
 }
