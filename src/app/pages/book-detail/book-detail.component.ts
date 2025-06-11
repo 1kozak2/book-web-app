@@ -120,7 +120,8 @@ export class BookDetailComponent implements OnInit {
 
   addReview(): void {
     if (!this.book) return;
-    this.reviewService.addReview(this.book.id, this.reviewRating || 0, this.reviewText, this.book).subscribe({
+    const rating = Math.max(1, Math.min(this.reviewRating || 0, 5));
+    this.reviewService.addReview(this.book.id, rating, this.reviewText, this.book).subscribe({
       next: r => {
         this.reviews.unshift(r);
         this.reviewText = '';
