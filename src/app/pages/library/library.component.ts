@@ -82,5 +82,24 @@ export class LibraryComponent implements OnInit {
     });
   }
 
+  recentlyAddedBooks(): Book[] {
+    return this.filteredBooks().slice().sort((a, b) => {
+      const ad = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+      const bd = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+      return bd - ad;
+    });
+  }
+
+  shareShelf(shelf: Shelf): void {
+    this.shelvesService.generateShareToken(shelf.id).subscribe({
+      next: res => {
+        shelf.shareToken = res.shareToken;
+        shelf.isPublic = true;
+        alert(`Share link: ${window.location.origin}/shared/${res.shareToken}`);
+      },
+      error: err => console.error('Failed to share shelf', err)
+    });
+  }
+
 }
 

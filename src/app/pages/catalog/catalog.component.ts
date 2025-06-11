@@ -16,7 +16,6 @@ export class CatalogComponent implements OnInit {
   books: Book[] = [];
   searchTitle = '';
   searchAuthor = '';
-  categories: string[] = [];
   selectedCategory = '';
   sortOption: string = 'titleAsc';
   startIndex = 0;
@@ -28,15 +27,7 @@ export class CatalogComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.fetchCategories();
     this.searchBooks();
-  }
-
-  fetchCategories(): void {
-    this.http.get<string[]>(`${this.apiUrl}/api/books/categories`).subscribe({
-      next: c => (this.categories = c),
-      error: err => console.error('Failed to load categories', err)
-    });
   }
 
   searchBooks(): void {
@@ -45,7 +36,10 @@ export class CatalogComponent implements OnInit {
     if (this.searchAuthor.trim()) qParts.push(`inauthor:${this.searchAuthor.trim()}`);
     if (this.selectedCategory) qParts.push(`subject:${this.selectedCategory}`);
     const q = qParts.join('+');
-    if (!q) return;
+    if (!q) {
+      this.loadFeatured();
+      return;
+    }
 
     this.loading = true;
     this.startIndex = 0;
@@ -61,10 +55,12 @@ export class CatalogComponent implements OnInit {
   }
 
   loadMore(): void {
-    if (!this.lastQuery) return;
     this.loading = true;
+    const endpoint = this.lastQuery
+      ? `${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.lastQuery)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`
+      : `${this.apiUrl}/api/books/featured?startIndex=${this.startIndex}&maxResults=${this.maxResults}`;
 
-    this.http.get<any>(`${this.apiUrl}/api/books/search?q=${encodeURIComponent(this.lastQuery)}&startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
+    this.http.get<any>(endpoint)
       .subscribe(response => {
         const rawItems = Array.isArray(response) ? response : response.items || [];
         const newBooks = this.mapToBooks(rawItems);
@@ -98,6 +94,19 @@ export class CatalogComponent implements OnInit {
           return 0;
       }
     });
+  }
+
+  loadFeatured(): void {
+    this.loading = true;
+    this.startIndex = 0;
+    this.http.get<any>(`${this.apiUrl}/api/books/featured?startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
+      .subscribe(response => {
+        const rawItems = Array.isArray(response) ? response : response.items || [];
+        this.books = this.mapToBooks(rawItems);
+        this.startIndex = this.books.length;
+        this.lastQuery = '';
+        this.loading = false;
+      });
   }
 
   private mapToBooks(raw: any[]): Book[] {

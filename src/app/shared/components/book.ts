@@ -1,5 +1,6 @@
 export interface Book {
     id: string;
+    addedAt?: string;
     volumeInfo: {
       title: string;
       subtitle?: string;

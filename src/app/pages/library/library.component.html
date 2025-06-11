@@ -15,7 +15,7 @@
   <section class="recent-section">
     <h3>Recently Added</h3>
     <div class="books-grid">
-      <app-book-card *ngFor="let b of filteredBooks() | slice:0:5" [book]="b"></app-book-card>
+      <app-book-card *ngFor="let b of recentlyAddedBooks() | slice:0:5" [book]="b"></app-book-card>
     </div>
   </section>
 
@@ -26,7 +26,11 @@
     </div>
     <div class="shelf-list">
       <div class="shelf" *ngFor="let s of shelves | slice:0:(showAllShelves ? shelves.length : 6)">
-        <h4><a [routerLink]="['/shelf', s.id]" class="shelf-link">{{ s.name }}</a></h4>
+        <div class="shelf-title">
+          <h4><a [routerLink]="['/shelf', s.id]" class="shelf-link">{{ s.name }}</a></h4>
+          <button *ngIf="!s.isPublic" (click)="shareShelf(s)">Share</button>
+          <a *ngIf="s.isPublic" [href]="'/shared/' + s.shareToken" target="_blank">Share Link</a>
+        </div>
         <div class="shelf-books">
           <app-book-card *ngFor="let sb of s.books" [book]="sb"></app-book-card>
         </div>
