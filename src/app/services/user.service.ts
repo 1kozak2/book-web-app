@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private api = 'http://localhost:3000/api/user';
+  private api = 'http://localhost:3000/api';
   constructor(private http: HttpClient) {}
 
   getPublicProfile(id: number): Observable<any> {

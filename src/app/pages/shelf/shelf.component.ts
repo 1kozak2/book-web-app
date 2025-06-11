@@ -46,7 +46,7 @@ export class ShelfComponent implements OnInit {
     }
   }
 
-  toggleBook(id: string, checked: boolean): void {
+  toggleBook(id: string, checked: boolean|null): void {
     if (checked) this.selected.add(id); else this.selected.delete(id);
   }
 
