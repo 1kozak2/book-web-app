@@ -13,6 +13,13 @@
       <label>Favourite book</label>
       <input [(ngModel)]="favouriteBook" />
     </div>
+    <button class="action-button" (click)="addPreferences()">Add Preferences</button>
+    <ul class="pref-list" *ngIf="addedPreferences.length">
+      <li *ngFor="let p of addedPreferences">
+        <strong>Categories:</strong> {{ p.categories.join(', ') }} -
+        <strong>Favourite Book:</strong> {{ p.favouriteBook }}
+      </li>
+    </ul>
     <button class="action-button" (click)="save()">Save</button>
     <button class="delete-button" (click)="deleteAccount()">Delete Account</button>
   </div>

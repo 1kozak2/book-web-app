@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   newUsername = '';
   categories = '';
   favouriteBook = '';
+  addedPreferences: {categories: string[]; favouriteBook: string}[] = [];
 
   constructor(private auth: AuthService, private router: Router, private http: HttpClient) {}
 
@@ -31,6 +32,19 @@ export class ProfileComponent implements OnInit {
       this.categories = (user.preferences?.categories || []).join(', ');
       this.favouriteBook = user.preferences?.favouriteBook || '';
     });
+  }
+
+  addPreferences(): void {
+    const cats = this.categories
+      .split(',')
+      .map(c => c.trim())
+      .filter(c => c);
+    this.addedPreferences.push({
+      categories: cats,
+      favouriteBook: this.favouriteBook
+    });
+    this.categories = '';
+    this.favouriteBook = '';
   }
 
   save(): void {

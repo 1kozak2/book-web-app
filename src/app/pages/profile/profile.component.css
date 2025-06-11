@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #00cc5c, #00b34d);
+  background: linear-gradient(to right, #4b0082, #8a2be2);
   color: #fff;
 }
 
@@ -74,4 +74,17 @@
 
 .delete-button:hover {
   background-color: #c9302c;
+}
+
+.pref-list {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  color: #eee;
+}
+.pref-list li {
+  background: #222;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 6px;
 }
