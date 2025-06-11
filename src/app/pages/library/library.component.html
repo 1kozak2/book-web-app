@@ -24,11 +24,11 @@
       <h3>Your Shelves</h3>
       <a *ngIf="!showAllShelves" (click)="showAllShelves = true" class="see-all">See all shelves</a>
     </div>
-    <div class="shelf-grid">
+    <div class="shelf-list">
       <div class="shelf" *ngFor="let s of shelves | slice:0:(showAllShelves ? shelves.length : 6)">
-        <h4>{{ s.name }}</h4>
+        <h4><a [routerLink]="['/shelf', s.id]" class="shelf-link">{{ s.name }}</a></h4>
         <div class="shelf-books">
-          <app-book-card *ngFor="let sb of s.books | slice:0:3" [book]="sb"></app-book-card>
+          <app-book-card *ngFor="let sb of s.books" [book]="sb"></app-book-card>
         </div>
       </div>
     </div>
