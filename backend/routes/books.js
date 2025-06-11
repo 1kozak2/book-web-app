@@ -85,11 +85,13 @@ router.get('/search', async (req, res) => {
 
 // Featured books (you can define a query term like "bestsellers", "trending", etc.)
 router.get('/featured', async (req, res) => {
+  const { startIndex = 0, maxResults = 20 } = req.query;
   try {
     const response = await axios.get(GOOGLE_BOOKS_API_BASE_URL, {
       params: {
         q: 'featured',
-        maxResults: 10,
+        startIndex,
+        maxResults,
         key: GOOGLE_API_KEY
       }
     });

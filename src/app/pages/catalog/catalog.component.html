@@ -15,10 +15,12 @@
       placeholder="Author"
       class="search-input"
     />
-    <select [(ngModel)]="selectedCategory" class="search-select">
-      <option value="">All Categories</option>
-      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-    </select>
+    <input
+      [(ngModel)]="selectedCategory"
+      type="text"
+      placeholder="Category"
+      class="search-input"
+    />
     <button (click)="searchBooks()" class="search-button">Search</button>
 
     <select [(ngModel)]="sortOption" class="sort-select">

@@ -1,5 +1,7 @@
 <div class="shelf-page" *ngIf="shelf">
   <h2>{{ shelf.name }}</h2>
+  <button *ngIf="!shelf.isPublic" (click)="shareShelf()">Share Shelf</button>
+  <a *ngIf="shelf.isPublic" [href]="'/shared/' + shelf.shareToken" target="_blank">Share Link</a>
   <div class="shelf-books">
     <app-book-card *ngFor="let b of shelf.books" [book]="b"></app-book-card>
   </div>

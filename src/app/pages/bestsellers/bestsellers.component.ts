@@ -14,6 +14,8 @@ import { BookCardComponent } from '../../shared/components/book-card/book-card.c
 export class BestsellersComponent implements OnInit {
   books: Book[] = [];
   loading = false;
+  startIndex = 0;
+  maxResults = 20;
   apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
@@ -42,19 +44,26 @@ export class BestsellersComponent implements OnInit {
   //   );
   // }
 searchBooks(): void {
-    
     this.loading = true;
-
-     this.http.get<any>(`${this.apiUrl}/api/books/featured`)
+    this.http.get<any>(`${this.apiUrl}/api/books/featured?startIndex=${this.startIndex}&maxResults=${this.maxResults}`)
       .subscribe(response => {
         const rawItems = Array.isArray(response) ? response : response.items || [];
-        this.books = this.mapToBooks(rawItems);
+        const newBooks = this.mapToBooks(rawItems);
+        if (this.startIndex === 0) {
+          this.books = newBooks;
+        } else {
+          this.books = [...this.books, ...newBooks];
+        }
+        this.startIndex += this.maxResults;
         this.loading = false;
       });
+  }
+
+loadMore(): void {
+    this.searchBooks();
+}
   
-    }
-  
-     mapToBooks(raw: any[]): Book[] {
+    mapToBooks(raw: any[]): Book[] {
       return raw
         .filter(item => item.volumeInfo?.title && item.volumeInfo?.imageLinks?.thumbnail)
         .map(item => ({

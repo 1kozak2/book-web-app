@@ -103,6 +103,7 @@ router.get('/user/books', authenticateToken, async (req, res) => {
   try {
     const userBooks = await prisma.userBook.findMany({
       where: { userId },
+      orderBy: { addedAt: 'desc' },
       include: {
         book: {
           include: {
@@ -116,6 +117,7 @@ router.get('/user/books', authenticateToken, async (req, res) => {
       const b = ub.book;
       return {
         id: b.googleBooksId || String(b.id),
+        addedAt: ub.addedAt,
         volumeInfo: {
           title: b.title,
           subtitle: b.subtitle,
@@ -225,6 +227,8 @@ router.get('/user/shelves', authenticateToken, async (req, res) => {
     const result = shelves.map(s => ({
       id: s.id,
       name: s.name,
+      shareToken: s.shareToken,
+      isPublic: !!s.shareToken,
       books: s.shelfBooks.map(sb => ({
         id: sb.book.googleBooksId || String(sb.book.id),
         volumeInfo: {
@@ -262,6 +266,13 @@ router.post('/user/shelves/:id/books', authenticateToken, async (req, res) => {
       where: { shelfId_bookId: { shelfId, bookId: book.id } },
       update: {},
       create: { shelfId, bookId: book.id },
+    });
+
+    // ensure book exists in user's library as well
+    await prisma.userBook.upsert({
+      where: { userId_bookId: { userId, bookId: book.id } },
+      update: {},
+      create: { userId, bookId: book.id, status: 'added' },
     });
 
     res.status(201).json({ message: 'Book added to shelf' });

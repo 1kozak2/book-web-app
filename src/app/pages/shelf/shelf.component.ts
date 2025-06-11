@@ -21,4 +21,18 @@ export class ShelfComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.shelfService.getShelf(id).subscribe(s => this.shelf = s);
   }
+
+  shareShelf(): void {
+    if (!this.shelf) return;
+    this.shelfService.generateShareToken(this.shelf.id).subscribe({
+      next: res => {
+        if (this.shelf) {
+          this.shelf.shareToken = res.shareToken;
+          this.shelf.isPublic = true;
+          alert(`Share link: ${window.location.origin}/shared/${res.shareToken}`);
+        }
+      },
+      error: err => console.error('Failed to share shelf', err)
+    });
+  }
 }
