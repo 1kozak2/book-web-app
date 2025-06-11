@@ -50,12 +50,16 @@ export class AuthService {
   verifySession(): void {
     const token = this.getToken();
     if (!token) return;
-    this.http.get<{ username: string }>('http://localhost:3000/api/user/me').subscribe({
+    this.http.get<{ username: string }>('http://localhost:3000/api/me').subscribe({
       next: user => {
         this.userSubject.next(user.username);
       },
       error: () => this.logout()
     });
+  }
+
+  deleteAccount() {
+    return this.http.delete('http://localhost:3000/api/me');
   }
 
   getToken(): string | null {
