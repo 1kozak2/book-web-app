@@ -45,15 +45,17 @@
   flex-wrap: wrap;
   margin-top: 1rem;
 }
-
+/* link kategorii nadpisuje styl domyślny */
 .category-card {
-  background-color: #282828;
-  padding: 1rem 2rem;
+  display: inline-block;
+  padding: 14px 42px;
+  border: 2px solid #00ff91;
   border-radius: 12px;
+  margin: 0 16px 12px 0;
   font-size: 1.1rem;
-  font-weight: 500;
-  border: 1px solid #1db954;
-  transition: transform 0.3s ease;
+  color: #fff;
+  text-decoration: none;
+  transition: background .3s;
 }
 
 .category-card:hover {
@@ -61,7 +63,31 @@
   background-color: #1db954;
   color: black;
 }
-
+.faq-toggle {
+  width: 100%;
+  text-align: left;
+  background:#1e1e1e;
+  color:#fff;
+  border:0;
+  padding:14px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  margin-bottom:6px;
+  border:1px solid #00ff9133;
+}
+.arrow, .rotate { transition: transform .3s; }
+.rotate { transform: rotate(180deg); }
+.faq-answer {
+  background:#181818;
+  padding:12px 18px 16px;
+  border-left:3px solid #00ff91;
+  border-radius:0 0 8px 8px;
+  margin-bottom:14px;
+  line-height:1.5;
+}
 .book-section {
   padding: 3rem 2rem;
   background-color: #121212;

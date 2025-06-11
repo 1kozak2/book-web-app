@@ -18,6 +18,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'book/:id', component: BookDetailComponent },
   { path: 'catalogue', component: CatalogComponent },
+  { path: 'catalogue/:category', component: CatalogComponent }, 
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'library', component: LibraryComponent, canActivate: [AuthGuard] },

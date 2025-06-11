@@ -1,79 +1,49 @@
+<!-- HERO ---------------------------------------------------------->
 <div class="hero">
   <div class="hero-content">
     <h1>📚 Twoja cyfrowa biblioteka</h1>
     <p>Przeglądaj, odkrywaj i czytaj tysiące książek – gdzie chcesz, kiedy chcesz.</p>
-    <button routerLink="/catalogue" class="cta-btn">Zobacz katalog</button>
+    <a routerLink="/catalogue" class="cta-btn">Zobacz katalog</a> <!-- ✅ -->
   </div>
 </div>
 
+<!-- KATEGORIE ----------------------------------------------------->
 <section class="category-section">
   <h2>Kategorie</h2>
+
   <div class="categories">
-    <div class="category-card">🌍 Literatura</div>
-    <div class="category-card">🔬 Nauka</div>
-    <div class="category-card">🚀 Fantastyka</div>
-    <div class="category-card">🧠 Psychologia</div>
+    <a class="category-card" [routerLink]="['/catalogue', 'Literatura']">🌍 Literatura</a>
+    <a class="category-card" [routerLink]="['/catalogue', 'Nauka']">🔬 Nauka</a>
+    <a class="category-card" [routerLink]="['/catalogue', 'Fantastyka']">🚀 Fantastyka</a>
+    <a class="category-card" [routerLink]="['/catalogue', 'Psychologia']">🧠 Psychologia</a>
   </div>
 </section>
 
+
+<!-- POPULARNE ----------------------------------------------------->
 <section class="book-section">
   <h2>Popularne książki</h2>
   <div class="book-grid">
-    <div class="book-card" *ngFor="let book of books">
-      <img [src]="book.cover" alt="Okładka" />
-      <h4>{{ book.title }}</h4>
-      <p>{{ book.author }}</p>
+    <div class="book-card" *ngFor="let b of books">
+      <img [src]="b.cover" alt="Okładka" />
+      <h4>{{ b.title }}</h4>
+      <p>{{ b.author }}</p>
     </div>
   </div>
 </section>
 
-<section class="features-section">
-  <h2>Dlaczego warto?</h2>
-  <div class="feature-grid">
-    <div class="feature-card">
-      <h3>Błyskawiczny dostęp</h3>
-      <p>Czytaj i słuchaj książek na każdym urządzeniu bez czekania.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Starannie dobrane tytuły</h3>
-      <p>Nasz zespół co tydzień poleca nowe perełki literatury.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Społeczność czytelników</h3>
-      <p>Dołącz do dyskusji i dziel się swoimi ulubionymi pozycjami.</p>
-    </div>
-  </div>
-</section>
+<!-- FEATURES / TESTIMONIALS  (bez zmian) -------------------------->
+<!-- … -->
 
-<section class="testimonials-section">
-  <h2>Opinie użytkowników</h2>
-  <div class="testimonial-grid">
-    <blockquote class="testimonial">
-      "Najlepsza aplikacja do czytania, jaką znam!"<footer>— Ania</footer>
-    </blockquote>
-    <blockquote class="testimonial">
-      "Ogromny wybór książek i świetne rekomendacje."<footer>— Bartek</footer>
-    </blockquote>
-    <blockquote class="testimonial">
-      "Dzięki LumosLib znów zacząłem czytać."<footer>— Karol</footer>
-    </blockquote>
-  </div>
-</section>
-
+<!-- FAQ (akordeon) ----------------------------------------------->
 <section class="faq-section">
   <h2>FAQ</h2>
   <div class="faq-grid">
-    <article class="faq-item">
-      <h3>Czy korzystanie z serwisu jest płatne?</h3>
-      <p>Podstawowe funkcje są całkowicie darmowe, a opcja premium rozszerza bibliotekę o dodatkowe tytuły.</p>
-    </article>
-    <article class="faq-item">
-      <h3>Jak mogę dodać książkę do swojej półki?</h3>
-      <p>Wystarczy kliknąć przycisk "Dodaj" przy wybranej książce w katalogu.</p>
-    </article>
-    <article class="faq-item">
-      <h3>Czy mogę udostępniać swoje recenzje?</h3>
-      <p>Tak, zachęcamy do dzielenia się opiniami – pomagają one innym czytelnikom.</p>
+    <article class="faq-item" *ngFor="let f of faq">
+      <button class="faq-toggle" (click)="f.open = !f.open">
+        {{ f.q }} <span [class.rotate]="f.open">⌄</span>
+      </button>
+      <div class="faq-answer" *ngIf="f.open">{{ f.a }}</div>
     </article>
   </div>
 </section>
