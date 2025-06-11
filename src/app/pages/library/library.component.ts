@@ -114,7 +114,7 @@ export class LibraryComponent implements OnInit {
     if (!this.editingShelf) return;
     this.shelvesService.updateShelf(this.editingShelf.id, { name: this.editName, isPublic: this.editPublic }).subscribe({
       next: updated => {
-        Object.assign(this.editingShelf, updated);
+        Object.assign(this.editingShelf!, updated);
         this.editingShelf = null;
       },
       error: err => console.error('Failed to update shelf', err)

@@ -21,7 +21,7 @@ ALTER TABLE "Shelf" ADD COLUMN "shareToken" TEXT UNIQUE;
 CREATE TABLE "Review" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "bookId" INTEGER NOT NULL,
+    "bookId" INTEGER NOT NULL,  
     "rating" INTEGER,
     "content" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

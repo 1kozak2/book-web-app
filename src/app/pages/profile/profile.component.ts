@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   standalone: true,
   selector: 'app-profile',
-  imports: [CommonModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, RouterModule, HttpClientModule,FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
