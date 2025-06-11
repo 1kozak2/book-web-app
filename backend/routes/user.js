@@ -376,6 +376,48 @@ router.get('/shared/:token', async (req, res) => {
   }
 });
 
+// Remove a book from a specific shelf
+router.delete('/user/shelves/:shelfId/books/:bookId', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const shelfId = parseInt(req.params.shelfId, 10);
+  const googleBooksId = req.params.bookId;
+
+  try {
+    const shelf = await prisma.shelf.findFirst({ where: { id: shelfId, userId } });
+    if (!shelf) return res.status(404).json({ error: 'Shelf not found' });
+
+    const book = await prisma.book.findFirst({ where: { googleBooksId } });
+    if (!book) return res.status(404).json({ error: 'Book not found' });
+
+    await prisma.shelfBook.deleteMany({ where: { shelfId, bookId: book.id } });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to remove book from shelf' });
+  }
+});
+
+// Remove a book from all shelves of the user
+router.delete('/user/shelves/books/:bookId', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const googleBooksId = req.params.bookId;
+
+  try {
+    const book = await prisma.book.findFirst({ where: { googleBooksId } });
+    if (!book) return res.status(404).json({ error: 'Book not found' });
+
+    const shelves = await prisma.shelf.findMany({ where: { userId } });
+    await prisma.shelfBook.deleteMany({
+      where: { shelfId: { in: shelves.map(s => s.id) }, bookId: book.id }
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to remove book from all shelves' });
+  }
+});
+
 // Public profile with public shelves only
 router.get('/:id/public', async (req, res) => {
   const userId = parseInt(req.params.id, 10);
