@@ -14,16 +14,24 @@
 .controls select {
   padding: 10px 14px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #00cc5c;
   background: #222;
   color: #fff;
   transition: box-shadow 0.3s;
+  appearance: none;
 }
 
 .controls input:focus,
 .controls select:focus {
   outline: none;
   box-shadow: 0 0 0 2px #00cc5c;
+}
+
+.controls select {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%22http://www.w3.org/2000/svg%22 viewBox%3D%220 0 4 5%22%3E%3Cpath fill%3D%22%23ffffff%22 d%3D%22M2 0L0 2h4L2 0zM0 3l2 2 2-2H0z%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
 }
 
 
@@ -213,7 +221,7 @@
 }
 
 .shelf-books app-book-card {
-  flex: 0 0 auto;
+  flex: 0 0 150px;
 }
 
 .all-books-section .all-book {
